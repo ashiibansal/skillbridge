@@ -67,10 +67,15 @@ Agile practices such as sprint planning, daily stand-ups, sprint reviews, and re
 
 skillbridge/
 │
+
 ├── frontend/        # React frontend
+
 ├── backend/         # Node.js & Express backend
+
 ├── database/        # Database schemas / models
+
 ├── docs/            # Project documentation
+
 └── README.md
 
 ---
