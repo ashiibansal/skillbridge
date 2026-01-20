@@ -64,6 +64,7 @@ Agile practices such as sprint planning, daily stand-ups, sprint reviews, and re
 ---
 
 ## 📂 Project Structure
+
 skillbridge/
 │
 ├── frontend/        # React frontend
@@ -71,6 +72,7 @@ skillbridge/
 ├── database/        # Database schemas / models
 ├── docs/            # Project documentation
 └── README.md
+
 ---
 
 ## 🎯 Project Objective
