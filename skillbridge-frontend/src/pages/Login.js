@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Target, Mail, Lock } from 'lucide-react';
+import { Target, Mail, Lock, ArrowRight } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { toast } from 'sonner';
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { API } from "../lib/api";
+import { AuthContext } from '../context/AuthContext';
+import { API } from '../lib/api';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,94 +44,67 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
-      {/* Left Side - Image */}
-      <div className="hidden md:block relative overflow-hidden">
-        <img 
-          src="https://images.unsplash.com/photo-1763804123056-53bc7f514dc3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNTl8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMGdyb3d0aCUyMHNoYXBlcyUyMG1pbmltYWxpc3R8ZW58MHx8fHwxNzY5MjgwMDY5fDA&ixlib=rb-4.1.0&q=85"
-          alt="Abstract growth"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-primary/20 backdrop-blur-sm flex items-center justify-center">
-          <div className="text-white text-center p-8">
-            <Target className="w-20 h-20 mx-auto mb-4" />
-            <h2 className="text-4xl font-bold mb-4" style={{fontFamily: 'Outfit'}}>Welcome Back</h2>
-            <p className="text-lg">Continue your learning journey</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Side - Form */}
-      <div className="flex items-center justify-center p-6 bg-slate-50">
-        <motion.div 
-          className="w-full max-w-md"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="mb-8">
-            <Link to="/" className="flex items-center gap-2 mb-8">
-              <Target className="w-8 h-8 text-primary" />
-              <span className="text-2xl font-bold text-primary" style={{fontFamily: 'Outfit'}}>SkillGapAI</span>
-            </Link>
-            <h1 className="text-3xl font-bold mb-2" style={{fontFamily: 'Outfit'}}>Sign In</h1>
-            <p className="text-slate-600">Enter your credentials to continue</p>
-          </div>
-
-          <form onSubmit={handleLogin} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 h-12"
-                  required
-                  data-testid="login-email-input"
-                />
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.18),_transparent_28%),linear-gradient(180deg,#f8fafc_0%,#ffffff_100%)]">
+      <div className="mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-stretch px-6 py-10 lg:grid-cols-2 lg:gap-10">
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="hidden rounded-[36px] bg-slate-950 p-10 text-white lg:flex lg:flex-col lg:justify-between">
+          <div>
+            <div className="mb-10 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10"><Target className="h-6 w-6" /></div>
+              <div>
+                <div className="text-xl font-semibold">SkillBridge</div>
+                <div className="text-sm text-slate-300">Your career planning workspace</div>
               </div>
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 h-12"
-                  required
-                  data-testid="login-password-input"
-                />
-              </div>
-            </div>
-
-            <Button 
-              type="submit" 
-              className="w-full h-12 bg-primary hover:bg-primary/90 text-white rounded-full font-medium"
-              disabled={loading}
-              data-testid="login-submit-btn"
-            >
-              {loading ? 'Signing In...' : 'Sign In'}
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-slate-600">
-              Don't have an account?{' '}
-              <Link to="/register" className="text-primary font-semibold hover:underline" data-testid="login-to-register-link">
-                Sign Up
-              </Link>
-            </p>
+            <h1 className="max-w-md text-5xl font-bold leading-tight">Welcome back to the part where your career plan stops winging it.</h1>
+            <p className="mt-6 max-w-lg text-lg leading-8 text-slate-300">Review your role readiness, keep learning momentum, and jump straight back into your roadmap.</p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {['Assess skills', 'Track progress', 'Use AI coach'].map((item) => (
+              <div key={item} className="rounded-3xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200">{item}</div>
+            ))}
           </div>
         </motion.div>
+
+        <div className="flex items-center justify-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="w-full max-w-md rounded-[32px] border border-white/70 bg-white/85 p-8 shadow-2xl shadow-slate-900/10 backdrop-blur-xl sm:p-10">
+            <Link to="/" className="mb-8 flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-white"><Target className="h-5 w-5" /></div>
+              <div>
+                <div className="text-lg font-semibold text-slate-950">SkillBridge</div>
+                <div className="text-xs text-slate-500">Sign in to continue</div>
+              </div>
+            </Link>
+
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-slate-950">Sign in</h2>
+              <p className="mt-2 text-slate-600">Enter your credentials to resume your personalised learning path.</p>
+            </div>
+
+            <form onSubmit={handleLogin} className="space-y-5">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3.5 h-5 w-5 text-slate-400" />
+                  <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} className="h-12 rounded-2xl border-slate-200 pl-10" required data-testid="login-email-input" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3.5 h-5 w-5 text-slate-400" />
+                  <Input id="password" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} className="h-12 rounded-2xl border-slate-200 pl-10" required data-testid="login-password-input" />
+                </div>
+              </div>
+              <Button type="submit" className="h-12 w-full rounded-full bg-slate-950 text-white hover:bg-slate-900" disabled={loading} data-testid="login-submit-btn">
+                {loading ? 'Signing in…' : 'Sign in'} <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </form>
+
+            <p className="mt-6 text-center text-sm text-slate-600">
+              Don&apos;t have an account? <Link to="/register" className="font-semibold text-slate-900 hover:underline">Create one</Link>
+            </p>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

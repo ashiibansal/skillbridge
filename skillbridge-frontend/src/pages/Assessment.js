@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
@@ -20,42 +20,42 @@ const Assessment = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    fetchAssessmentTemplate();
-  }, [roleId]);
-
-  const fetchAssessmentTemplate = async () => {
+  const fetchAssessmentTemplate = useCallback(async () => {
     try {
-      const res = await fetch(
-        `${API}/assessments/role/${roleId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await fetch(`${API}/assessments/role/${roleId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      if (!res.ok) throw new Error("Failed to load assessment");
+      const data = await res.json(); // ✅ Read once
 
-      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to load assessment");
+      }
 
       setRoleTitle(data.title);
-      setSkills(data.skills);
+      setSkills(data.skills || []);
 
-      // Initialize answers (default 50%)
+      // Initialize answers (1–5 scale)
       const initialAnswers = {};
-      data.skills.forEach((s) => {
-        initialAnswers[s.skill] = 50;
+      (data.skills || []).forEach((s) => {
+        initialAnswers[s.name] = 1;
       });
       setAnswers(initialAnswers);
 
     } catch (err) {
       console.error(err);
-      toast.error("Failed to load assessment");
+      toast.error(err.message || "Failed to load assessment");
     } finally {
       setLoading(false);
     }
-  };
+  }, [roleId, token]);
+
+
+  useEffect(() => {
+    fetchAssessmentTemplate();
+  }, [fetchAssessmentTemplate]);
 
   const handleSubmit = async () => {
     try {
@@ -80,21 +80,32 @@ const Assessment = () => {
         }),
       });
 
+      const data = await res.json(); // ✅ Read once
+
       if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.message || "Submission failed");
+        throw new Error(data.message || "Submission failed");
       }
 
-      const data = await res.json();
       toast.success("Assessment submitted");
-
       navigate(`/gap-analysis/${data.assessmentId}`);
+
     } catch (err) {
       console.error(err);
-      toast.error(err.message);
+      toast.error(err.message || "Something went wrong");
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const getLabel = (value) => {
+    const labels = {
+      1: "Beginner",
+      2: "Basic",
+      3: "Intermediate",
+      4: "Advanced",
+      5: "Expert",
+    };
+    return labels[value] || "";
   };
 
   if (loading) {
@@ -126,31 +137,47 @@ const Assessment = () => {
         <div className="space-y-6">
           {skills.map((item, index) => (
             <motion.div
-              key={item.skill}
+              key={item.name}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.05 }}
               className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm"
             >
-              <div className="flex justify-between mb-4">
-                <h3 className="text-lg font-semibold">{item.skill}</h3>
-                <span className="font-bold text-primary">
-                  {answers[item.skill]}
-                </span>
+              <div className="flex justify-between items-center mb-4">
+                <div>
+                  <h3 className="text-lg font-semibold">{item.name}</h3>
+                  <span className="text-xs px-2 py-1 bg-slate-100 rounded-full text-slate-600">
+                    {item.category}
+                  </span>
+                </div>
+
+                <div className="text-right">
+                  <div className="text-xl font-bold text-primary">
+                    {answers[item.name]}
+                  </div>
+                  <div className="text-xs text-slate-500">
+                    {getLabel(answers[item.name])}
+                  </div>
+                </div>
               </div>
 
               <Slider
-                min={0}
-                max={100}
-                step={5}
-                value={[answers[item.skill]]}
+                min={1}
+                max={5}
+                step={1}
+                value={[answers[item.name] || 1]}
                 onValueChange={(val) =>
                   setAnswers((prev) => ({
                     ...prev,
-                    [item.skill]: val[0],
+                    [item.name]: val[0],
                   }))
                 }
               />
+
+              <div className="flex justify-between mt-2 text-xs text-slate-500">
+                <span>Beginner</span>
+                <span>Expert</span>
+              </div>
             </motion.div>
           ))}
         </div>

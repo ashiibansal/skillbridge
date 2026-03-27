@@ -1,25 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { TrendingUp, Target, Award, BookOpen, ArrowRight } from 'lucide-react';
+import {
+  TrendingUp,
+  Target,
+  Award,
+  BookOpen,
+  ArrowRight,
+  BriefcaseBusiness,
+  Sparkles,
+  CheckCircle2,
+  Clock3
+} from 'lucide-react';
 import { Button } from '../components/ui/button';
 import Layout from '../components/Layout';
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { API } from "../lib/api";
+import { AuthContext } from '../context/AuthContext';
+import { API } from '../lib/api';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { token } = React.useContext(AuthContext);
+  const { token, user } = React.useContext(AuthContext);
   const [assessments, setAssessments] = useState([]);
   const [progress, setProgress] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const [assessmentsRes, progressRes] = await Promise.all([
         fetch(`${API}/assessments`, {
@@ -32,176 +37,292 @@ const Dashboard = () => {
 
       if (assessmentsRes.ok) {
         const assessmentsData = await assessmentsRes.json();
-        setAssessments(assessmentsData);
+        setAssessments(Array.isArray(assessmentsData) ? assessmentsData : []);
       }
 
       if (progressRes.ok) {
         const progressData = await progressRes.json();
-        setProgress(progressData);
+        setProgress(Array.isArray(progressData) ? progressData : []);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const hasAssessments = assessments.length > 0;
-  const avgProgress = progress.length > 0 
-    ? Math.round(progress.reduce((sum, p) => sum + p.overall_progress, 0) / progress.length)
-    : 0;
+  const avgProgress =
+    progress.length > 0
+      ? Math.round(
+          progress.reduce(
+            (sum, p) => sum + (p.overall_progress || p.readiness_score || 0),
+            0
+          ) / progress.length
+        )
+      : 0;
+
+  const bestTrack =
+    progress[0]?.role?.title ||
+    assessments[0]?.role?.title ||
+    'No active role yet';
 
   return (
     <Layout>
-      <div className="max-w-7xl mx-auto" data-testid="dashboard">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2" style={{fontFamily: 'Outfit'}}>Dashboard</h1>
-          <p className="text-slate-600">Track your learning journey and career progress</p>
-        </div>
+      <div className="space-y-8" data-testid="dashboard">
+        <section className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
+          <div className="rounded-[32px] bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-8 text-white shadow-2xl shadow-slate-900/10">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm text-blue-50">
+              <Sparkles className="h-4 w-4" />
+              Personalised career dashboard
+            </div>
+
+            <h1 className="text-4xl font-bold tracking-tight">
+              Welcome back, {user?.name?.split(' ')[0] || 'Learner'}.
+            </h1>
+
+            <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-200">
+              Keep moving from assessment to execution. Your dashboard now
+              surfaces the next meaningful actions instead of making you hunt
+              for them like it owes you money.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Button
+                onClick={() => navigate('/roles')}
+                className="h-12 rounded-full bg-white px-6 text-slate-900 hover:bg-slate-100"
+              >
+                Explore roles <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+
+              <Button
+                onClick={() => navigate('/resources')}
+                variant="outline"
+                className="h-12 rounded-full border-white/20 bg-transparent px-6 text-white hover:bg-white/10"
+              >
+                Open resources
+              </Button>
+            </div>
+          </div>
+
+          <div className="rounded-[32px] border border-slate-200 bg-white p-8 shadow-sm">
+            <div className="text-sm font-medium text-slate-500">
+              Quick snapshot
+            </div>
+
+            <div className="mt-4 space-y-5">
+              <div>
+                <div className="text-4xl font-bold text-slate-950">
+                  {avgProgress}%
+                </div>
+                <div className="text-sm text-slate-600">
+                  Average readiness across active tracks
+                </div>
+              </div>
+
+              <div className="h-3 overflow-hidden rounded-full bg-slate-100">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-slate-800 to-blue-600"
+                  style={{ width: `${Math.min(avgProgress, 100)}%` }}
+                />
+              </div>
+
+              <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
+                Current focus:{' '}
+                <span className="font-semibold text-slate-900">
+                  {bestTrack}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {loading ? (
-          <div className="flex items-center justify-center h-64">
-            <div className="animate-spin h-12 w-12 border-4 border-primary border-t-transparent rounded-full"></div>
+          <div className="flex h-64 items-center justify-center">
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-blue-200 border-t-slate-800" />
           </div>
         ) : (
           <>
-            {!hasAssessments ? (
-              /* Getting Started Section */
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
+            <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+              {[
+                {
+                  icon: Target,
+                  label: 'Career paths started',
+                  value: assessments.length
+                },
+                {
+                  icon: TrendingUp,
+                  label: 'Average progress',
+                  value: `${avgProgress}%`
+                },
+                {
+                  icon: Award,
+                  label: 'Active analyses',
+                  value: progress.length
+                },
+                {
+                  icon: BriefcaseBusiness,
+                  label: 'Top track',
+                  value:
+                    bestTrack.length > 18
+                      ? `${bestTrack.slice(0, 18)}…`
+                      : bestTrack
+                }
+              ].map(({ icon: Icon, label, value }, index) => (
+                <motion.div
+                  key={label}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.08 }}
+                  className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm"
+                >
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-slate-800">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <div className="text-3xl font-bold text-slate-950">
+                    {value}
+                  </div>
+                  <div className="mt-2 text-sm text-slate-600">{label}</div>
+                </motion.div>
+              ))}
+            </section>
+
+            {!hasAssessments && (
+              <motion.section
+                initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-gradient-to-br from-primary to-green-800 rounded-xl p-12 text-white mb-8"
+                className="rounded-[32px] border border-blue-100 bg-gradient-to-r from-blue-50 to-white p-8 shadow-sm"
               >
-                <div className="max-w-2xl">
-                  <h2 className="text-3xl font-bold mb-4" style={{fontFamily: 'Outfit'}}>
-                    Welcome to SkillGapAI!
-                  </h2>
-                  <p className="text-lg mb-6 text-slate-100">
-                    Start your career transformation journey by selecting a target role and assessing your current skills.
-                  </p>
-                  <Button 
-                    onClick={() => navigate('/roles')}
-                    data-testid="get-started-roles-btn"
-                    className="bg-white text-primary hover:bg-slate-100 rounded-full px-8 h-12 font-medium"
-                  >
-                    Explore Career Roles <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </div>
-              </motion.div>
-            ) : (
-              /* Stats Grid */
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                  className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm"
+                <h2 className="text-3xl font-bold text-slate-950">
+                  Start with your first assessment
+                </h2>
+                <p className="mt-3 max-w-2xl text-slate-600">
+                  Pick a role, rate your current skill level, and let the app
+                  generate a gap analysis and roadmap. Much better than guessing
+                  and calling it strategy.
+                </p>
+                <Button
+                  onClick={() => navigate('/roles')}
+                  data-testid="get-started-roles-btn"
+                  className="mt-6 h-12 rounded-full bg-slate-900 px-8 text-white hover:bg-slate-800"
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <Target className="w-6 h-6 text-primary" />
-                    </div>
-                  </div>
-                  <div className="text-3xl font-bold mb-1" style={{fontFamily: 'Outfit'}}>{assessments.length}</div>
-                  <div className="text-slate-600">Career Paths Started</div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
-                      <TrendingUp className="w-6 h-6 text-accent" />
-                    </div>
-                  </div>
-                  <div className="text-3xl font-bold mb-1" style={{fontFamily: 'Outfit'}}>{avgProgress}%</div>
-                  <div className="text-slate-600">Average Progress</div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center">
-                      <Award className="w-6 h-6 text-secondary" />
-                    </div>
-                  </div>
-                  <div className="text-3xl font-bold mb-1" style={{fontFamily: 'Outfit'}}>{progress.length}</div>
-                  <div className="text-slate-600">Skills In Progress</div>
-                </motion.div>
-              </div>
+                  Explore career roles <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </motion.section>
             )}
 
-            {/* Quick Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <section className="grid gap-6 lg:grid-cols-[1fr_1fr]">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all"
+                transition={{ delay: 0.1 }}
+                className="rounded-[32px] border border-slate-200 bg-white p-7 shadow-sm"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Briefcase className="w-6 h-6 text-primary" />
+                <div className="mb-6 flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-slate-800">
+                    <BookOpen className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold" style={{fontFamily: 'Outfit'}}>Explore Roles</h3>
-                    <p className="text-sm text-slate-600">Find your target career</p>
+                    <h3 className="text-2xl font-semibold text-slate-950">
+                      Quick actions
+                    </h3>
+                    <p className="text-sm text-slate-600">
+                      Jump back into the flow without friction.
+                    </p>
                   </div>
                 </div>
-                <Button 
-                  onClick={() => navigate('/roles')}
-                  data-testid="dashboard-explore-roles-btn"
-                  variant="outline"
-                  className="w-full rounded-full"
-                >
-                  View All Roles <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
+
+                <div className="grid gap-3">
+                  {[
+                    [
+                      'Explore Roles',
+                      'Review target roles and start a new assessment.',
+                      '/roles'
+                    ],
+                    [
+                      'Learning Resources',
+                      'Open recommended tutorials and roadmaps.',
+                      '/resources'
+                    ],
+                    [
+                      'Track Progress',
+                      'See skill-level movement and readiness trends.',
+                      '/progress'
+                    ]
+                  ].map(([title, description, path]) => (
+                    <button
+                      key={title}
+                      onClick={() => navigate(path)}
+                      className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-4 text-left transition hover:border-blue-200 hover:bg-blue-50"
+                    >
+                      <div>
+                        <div className="font-semibold text-slate-900">
+                          {title}
+                        </div>
+                        <div className="text-sm text-slate-600">
+                          {description}
+                        </div>
+                      </div>
+                      <ArrowRight className="h-4 w-4 text-slate-400" />
+                    </button>
+                  ))}
+                </div>
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all"
+                transition={{ delay: 0.16 }}
+                className="rounded-[32px] border border-slate-200 bg-white p-7 shadow-sm"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
-                    <BookOpen className="w-6 h-6 text-accent" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold" style={{fontFamily: 'Outfit'}}>Learning Resources</h3>
-                    <p className="text-sm text-slate-600">Curated learning materials</p>
-                  </div>
+                <h3 className="text-2xl font-semibold text-slate-950">
+                  Next best moves
+                </h3>
+
+                <div className="mt-6 space-y-4">
+                  {[
+                    {
+                      icon: CheckCircle2,
+                      title: 'Update your profile',
+                      copy: 'Add your location, goal, and bio so the app context feels complete.'
+                    },
+                    {
+                      icon: Clock3,
+                      title: 'Prioritise one weak skill',
+                      copy: 'Use the resources page to focus on a single high-impact skill gap first.'
+                    },
+                    {
+                      icon: Sparkles,
+                      title: 'Ask the AI coach',
+                      copy: 'Use the chatbot for role-fit questions, sequencing, and learning suggestions.'
+                    }
+                  ].map(({ icon: Icon, title, copy }) => (
+                    <div key={title} className="flex gap-4 rounded-2xl bg-slate-50 p-4">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-blue-700 shadow-sm">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-slate-900">
+                          {title}
+                        </div>
+                        <div className="text-sm leading-6 text-slate-600">
+                          {copy}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <Button 
-                  onClick={() => navigate('/resources')}
-                  data-testid="dashboard-resources-btn"
-                  variant="outline"
-                  className="w-full rounded-full"
-                >
-                  Browse Resources <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
               </motion.div>
-            </div>
+            </section>
           </>
         )}
       </div>
     </Layout>
   );
 };
-
-const Briefcase = ({ className }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-  </svg>
-);
 
 export default Dashboard;

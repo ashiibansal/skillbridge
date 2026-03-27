@@ -15,12 +15,11 @@ import Progress from "./pages/Progress";
 import { AuthContext } from "./context/AuthContext";
 import "./App.css";
 import { API } from "./lib/api";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import Profile from "./pages/Profile";
 
 function ProtectedRoute({ children }) {
   const { user } = React.useContext(AuthContext);
-  return user ? children : <Navigate to="/login" />;
+  return user ? children : <Navigate to="/login" replace />;
 }
 
 function App() {
@@ -71,8 +70,11 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
+      <div className="min-h-screen flex items-center justify-center bg-slate-950">
+        <div className="flex flex-col items-center gap-4 text-white">
+          <div className="animate-spin h-12 w-12 rounded-full border-4 border-slate-400/30 border-t-slate-400" />
+          <p className="text-sm text-slate-300">Loading SkillBridge…</p>
+        </div>
       </div>
     );
   }
@@ -80,82 +82,21 @@ function App() {
   return (
     <AuthContext.Provider value={{ user, token, login, logout }}>
       <BrowserRouter>
-        <>
-          {/* 🔔 Toasts mounted ONCE, globally */}
-          <Toaster />
-
-          <Routes>
-            <Route
-              path="/"
-              element={user ? <Navigate to="/dashboard" /> : <Landing />}
-            />
-            <Route
-              path="/login"
-              element={user ? <Navigate to="/dashboard" /> : <Login />}
-            />
-            <Route
-              path="/register"
-              element={user ? <Navigate to="/dashboard" /> : <Register />}
-            />
-
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/roles"
-              element={
-                <ProtectedRoute>
-                  <CareerRoles />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/assessment/:roleId"
-              element={
-                <ProtectedRoute>
-                  <Assessment />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/gap-analysis/:assessmentId"
-              element={
-                <ProtectedRoute>
-                  <GapAnalysis />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/roadmap/:analysisId"
-              element={
-                <ProtectedRoute>
-                  <Roadmap />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/resources"
-              element={
-                <ProtectedRoute>
-                  <Resources />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/progress"
-              element={
-                <ProtectedRoute>
-                  <Progress />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </>
+        <Toaster richColors />
+        <Routes>
+          <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <Landing />} />
+          <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
+          <Route path="/register" element={user ? <Navigate to="/dashboard" replace /> : <Register />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/roles" element={<ProtectedRoute><CareerRoles /></ProtectedRoute>} />
+          <Route path="/assessment/:roleId" element={<ProtectedRoute><Assessment /></ProtectedRoute>} />
+          <Route path="/gap-analysis/:assessmentId" element={<ProtectedRoute><GapAnalysis /></ProtectedRoute>} />
+          <Route path="/roadmap/:analysisId" element={<ProtectedRoute><Roadmap /></ProtectedRoute>} />
+          <Route path="/resources" element={<ProtectedRoute><Resources /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} />
+          <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} replace />} />
+        </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
   );

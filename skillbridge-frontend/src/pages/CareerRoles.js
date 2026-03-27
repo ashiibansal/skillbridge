@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { TrendingUp, DollarSign, ArrowRight } from "lucide-react";
+import { TrendingUp, DollarSign, ArrowRight, Search, BriefcaseBusiness, Filter } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 import Layout from "../components/Layout";
 import { toast } from "sonner";
 import { AuthContext } from "../context/AuthContext";
@@ -14,12 +15,9 @@ const CareerRoles = () => {
 
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    fetchRoles();
-  }, []);
-
-  const fetchRoles = async () => {
+  const fetchRoles = useCallback(async () => {
     try {
       const response = await fetch(`${API}/roles`, {
         headers: {
@@ -32,126 +30,99 @@ const CareerRoles = () => {
       }
 
       const data = await response.json();
-      setRoles(data);
+      setRoles(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error(error);
       toast.error("Failed to load career roles");
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
 
-  const getCategoryColor = (category) => {
-    const colors = {
-      Frontend: "bg-blue-100 text-blue-700",
-      Backend: "bg-green-100 text-green-700",
-      Database: "bg-purple-100 text-purple-700",
-      Programming: "bg-orange-100 text-orange-700",
-      Design: "bg-pink-100 text-pink-700",
-      Cloud: "bg-cyan-100 text-cyan-700",
-      DevOps: "bg-indigo-100 text-indigo-700",
-      Mobile: "bg-teal-100 text-teal-700",
-      Security: "bg-red-100 text-red-700",
-    };
+  useEffect(() => {
+    fetchRoles();
+  }, [fetchRoles]);
 
-    return colors[category] || "bg-slate-100 text-slate-700";
-  };
+  const filteredRoles = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    if (!query) return roles;
+    return roles.filter((role) => [role.title, role.description, ...(role.skills || [])].join(" ").toLowerCase().includes(query));
+  }, [roles, search]);
 
   return (
     <Layout>
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2" style={{ fontFamily: "Outfit" }}>
-            Career Roles
-          </h1>
-          <p className="text-slate-600">
-            Choose your target role and start your learning journey
-          </p>
-        </div>
+      <div className="space-y-8">
+        <section className="flex flex-col gap-6 rounded-[32px] bg-white p-8 shadow-sm lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-slate-50 px-4 py-2 text-sm font-medium text-slate-900">
+              <BriefcaseBusiness className="h-4 w-4" />
+              Role library
+            </div>
+            <h1 className="text-4xl font-bold text-slate-950">Choose a role worth chasing</h1>
+            <p className="mt-3 max-w-2xl text-slate-600">Browse roles, compare required skills, and launch an assessment from the role that matches your direction.</p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
+            <div className="relative">
+              <Search className="absolute left-3 top-3.5 h-5 w-5 text-slate-400" />
+              <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search roles, skills, keywords…" className="h-12 min-w-[280px] rounded-2xl border-slate-200 pl-10" />
+            </div>
+            <div className="inline-flex h-12 items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-600">
+              <Filter className="h-4 w-4" />
+              {filteredRoles.length} roles
+            </div>
+          </div>
+        </section>
 
         {loading ? (
-          <div className="flex items-center justify-center h-64">
-            <div className="animate-spin h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
-          </div>
+          <div className="flex h-64 items-center justify-center"><div className="h-12 w-12 animate-spin rounded-full border-4 border-slate-400/30 border-t-slate-700" /></div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {roles.map((role, index) => {
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {filteredRoles.map((role, index) => {
               const skills = role.skills || [];
-
               return (
                 <motion.div
                   key={role._id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
+                  transition={{ delay: index * 0.06 }}
+                  className="group flex h-full cursor-pointer flex-col rounded-[30px] border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
                   onClick={() => navigate(`/assessment/${role._id}`)}
                   data-testid={`role-card-${role._id}`}
                 >
-                  <h3
-                    className="text-xl font-bold mb-3"
-                    style={{ fontFamily: "Outfit" }}
-                  >
-                    {role.title}
-                  </h3>
-
-                  <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-                    {role.description}
-                  </p>
-
-                  {/* Optional info (safe fallbacks) */}
-                  <div className="space-y-3 mb-4">
-                    <div className="flex items-center gap-2 text-sm">
-                      <DollarSign className="w-4 h-4 text-primary" />
-                      <span className="text-slate-700">
-                        {role.average_salary || "Salary data coming soon"}
-                      </span>
+                  <div className="mb-4 flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="text-2xl font-bold text-slate-950">{role.title}</h3>
+                      <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{role.description}</p>
                     </div>
-
-                    <div className="flex items-center gap-2 text-sm">
-                      <TrendingUp className="w-4 h-4 text-accent" />
-                      <span className="text-slate-700">
-                        {role.growth_rate || "Growth data coming soon"}
-                      </span>
-                    </div>
+                    <div className="rounded-2xl bg-slate-50 p-3 text-slate-800"><BriefcaseBusiness className="h-5 w-5" /></div>
                   </div>
 
-                  {/* Skills */}
-                  <div className="mb-4">
-                    <div className="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
-                      Required Skills
-                    </div>
+                  <div className="mb-5 grid gap-3 rounded-2xl bg-slate-50 p-4 text-sm text-slate-700">
+                    <div className="flex items-center gap-2"><DollarSign className="h-4 w-4 text-slate-700" />{role.average_salary || "Salary data coming soon"}</div>
+                    <div className="flex items-center gap-2"><TrendingUp className="h-4 w-4 text-orange-500" />{role.growth_rate || "Growth data coming soon"}</div>
+                  </div>
 
+                  <div className="mb-6 flex-1">
+                    <div className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Top skills</div>
                     <div className="flex flex-wrap gap-2">
-                      {skills.slice(0, 4).map((skill, idx) => (
-                        <span
-                          key={idx}
-                          className={`text-xs px-2 py-1 rounded-full ${getCategoryColor(
-                            "Programming"
-                          )}`}
-                        >
-                          {skill}
-                        </span>
+                      {skills.slice(0, 6).map((skill, idx) => (
+                        <span key={idx} className="rounded-full bg-slate-50 px-3 py-1 text-xs font-medium text-slate-900">{skill}</span>
                       ))}
-
-                      {skills.length > 4 && (
-                        <span className="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-700">
-                          +{skills.length - 4} more
-                        </span>
-                      )}
+                      {skills.length > 6 && <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">+{skills.length - 6} more</span>}
                     </div>
                   </div>
 
-                  <Button
-                    className="w-full bg-primary hover:bg-primary/90 text-white rounded-full"
-                    data-testid={`start-assessment-${role._id}`}
-                  >
-                    Start Assessment <ArrowRight className="ml-2 w-4 h-4" />
+                  <Button className="mt-auto w-full rounded-full bg-slate-950 text-white hover:bg-slate-900" data-testid={`start-assessment-${role._id}`}>
+                    Start assessment <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-0.5" />
                   </Button>
                 </motion.div>
               );
             })}
           </div>
+        )}
+
+        {!loading && filteredRoles.length === 0 && (
+          <div className="rounded-[28px] border border-slate-200 bg-white p-10 text-center text-slate-600">No roles matched your search. Try a different keyword.</div>
         )}
       </div>
     </Layout>

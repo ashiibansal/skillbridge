@@ -1,168 +1,156 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight, Target, TrendingUp, BookOpen, Award } from 'lucide-react';
-import { Button } from '../components/ui/button';
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ArrowRight, Target, TrendingUp, BookOpen, Award, CheckCircle2, Sparkles, ShieldCheck, Clock3 } from "lucide-react";
+import { Button } from "../components/ui/button";
+
+const features = [
+  {
+    icon: Target,
+    title: "Map the right role",
+    description: "Explore career paths with the required skills, salary context, and growth signals in one place.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Pinpoint real skill gaps",
+    description: "Run structured self-assessments and get a readiness view instead of vague motivational confetti.",
+  },
+  {
+    icon: BookOpen,
+    title: "Learn with direction",
+    description: "Turn the gap analysis into a learning roadmap and curated resources you can actually act on.",
+  },
+];
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      {/* Navigation */}
-      <nav className="glass-effect fixed top-0 w-full z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Target className="w-8 h-8 text-primary" />
-            <span className="text-2xl font-bold text-primary" style={{fontFamily: 'Outfit'}}>SkillGapAI</span>
+    <div className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.18),_transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(15,23,42,0.10),_transparent_24%),linear-gradient(180deg,#f8fafc_0%,#ffffff_100%)]">
+      <nav className="fixed top-0 z-50 w-full border-b border-white/60 bg-white/75 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-lg shadow-slate-950/20">
+              <Target className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="text-lg font-semibold tracking-tight text-slate-950">SkillBridge</div>
+              <div className="text-xs text-slate-500">Career intelligence for learners</div>
+            </div>
           </div>
-          <div className="flex items-center gap-4">
-            <Link to="/login">
-              <Button variant="ghost" data-testid="nav-login-btn">Login</Button>
-            </Link>
-            <Link to="/register">
-              <Button data-testid="nav-register-btn" className="bg-primary hover:bg-primary/90 text-white rounded-full px-6">Get Started</Button>
-            </Link>
+          <div className="flex items-center gap-3">
+            <Link to="/login"><Button variant="ghost" className="rounded-full">Login</Button></Link>
+            <Link to="/register"><Button className="rounded-full bg-slate-950 px-6 text-white hover:bg-slate-900">Get Started</Button></Link>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-          <motion.div 
-            className="md:col-span-7"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 mb-6" style={{fontFamily: 'Outfit'}}>
-              Close Your Skill Gaps,<br />
-              <span className="text-primary">Accelerate Your Career</span>
+      <section className="px-6 pb-20 pt-32">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.2fr_0.8fr]">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-100 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-900">
+              <Sparkles className="h-4 w-4" />
+              Designed for students and early-career professionals
+            </div>
+            <h1 className="max-w-3xl text-5xl font-bold tracking-tight text-slate-950 md:text-6xl">
+              Turn career uncertainty into a <span className="text-slate-900">clear, measurable plan.</span>
             </h1>
-            <p className="text-lg text-slate-600 mb-8 leading-relaxed max-w-2xl">
-              Get AI-powered analysis of your skills against your dream job. Receive personalized learning roadmaps and track your progress toward career readiness.
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+              SkillBridge helps you choose a target role, assess your current level, identify missing competencies, and follow a focused roadmap toward job readiness.
             </p>
-            <div className="flex gap-4">
+            <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link to="/register">
-                <Button data-testid="hero-get-started-btn" size="lg" className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 h-12 font-medium">
-                  Start Your Journey <ArrowRight className="ml-2 w-5 h-5" />
+                <Button size="lg" className="h-12 rounded-full bg-slate-950 px-8 text-white hover:bg-slate-900">
+                  Start your journey <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
+              <Link to="/login">
+                <Button size="lg" variant="outline" className="h-12 rounded-full px-8">See the dashboard</Button>
+              </Link>
+            </div>
+            <div className="mt-10 grid gap-4 sm:grid-cols-3">
+              {[
+                [ShieldCheck, "Role clarity", "Understand what a role actually demands"],
+                [Clock3, "Time efficiency", "Focus on high-priority gaps first"],
+                [CheckCircle2, "Better decisions", "Track progress with structured feedback"],
+              ].map(([Icon, title, copy]) => (
+                <div key={title} className="rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-sm">
+                  <Icon className="mb-3 h-5 w-5 text-slate-700" />
+                  <div className="mb-1 font-semibold text-slate-900">{title}</div>
+                  <div className="text-sm leading-6 text-slate-600">{copy}</div>
+                </div>
+              ))}
             </div>
           </motion.div>
-          
-          <motion.div 
-            className="md:col-span-5"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <img 
-              src="https://images.unsplash.com/photo-1741699428553-41c8e5bd894d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2OTV8MHwxfHNlYXJjaHwxfHx1bml2ZXJzaXR5JTIwc3R1ZGVudCUyMHN0dWR5aW5nJTIwbGFwdG9wJTIwbGlicmFyeXxlbnwwfHx8fDE3NjkyODAwNjZ8MA&ixlib=rb-4.1.0&q=85" 
-              alt="Student studying" 
-              className="rounded-2xl shadow-2xl"
-            />
+
+          <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.15 }}>
+            <div className="rounded-[32px] border border-white/70 bg-white/70 p-4 shadow-2xl shadow-slate-900/10 backdrop-blur-xl">
+              <img
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80"
+                alt="Students collaborating with laptops"
+                className="h-[520px] w-full rounded-[24px] object-cover"
+              />
+              <div className="-mt-24 ml-auto max-w-xs rounded-[28px] border border-white/80 bg-white/90 p-5 shadow-xl backdrop-blur">
+                <div className="mb-3 text-sm font-medium text-slate-500">Readiness snapshot</div>
+                <div className="mb-3 text-4xl font-bold text-slate-950">74%</div>
+                <div className="mb-4 h-3 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-full w-3/4 rounded-full bg-gradient-to-r from-slate-700 to-blue-400" />
+                </div>
+                <div className="space-y-2 text-sm text-slate-600">
+                  <div className="flex justify-between"><span>Core skills</span><span className="font-medium text-slate-900">Strong</span></div>
+                  <div className="flex justify-between"><span>Portfolio readiness</span><span className="font-medium text-slate-900">Moderate</span></div>
+                  <div className="flex justify-between"><span>Interview prep</span><span className="font-medium text-slate-900">Needs work</span></div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-semibold text-center mb-16 text-slate-900" style={{fontFamily: 'Outfit'}}>
-            How SkillGapAI Works
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <motion.div 
-              className="bg-card border border-border/60 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300"
-              whileHover={{ y: -4 }}
-            >
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                <Target className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3" style={{fontFamily: 'Outfit'}}>Choose Your Goal</h3>
-              <p className="text-slate-600 leading-relaxed">
-                Select your target career role from our comprehensive database of in-demand positions.
-              </p>
-            </motion.div>
-
-            <motion.div 
-              className="bg-card border border-border/60 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300"
-              whileHover={{ y: -4 }}
-            >
-              <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-4">
-                <TrendingUp className="w-6 h-6 text-accent" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3" style={{fontFamily: 'Outfit'}}>Get AI Analysis</h3>
-              <p className="text-slate-600 leading-relaxed">
-                Our AI analyzes your current skills and identifies exactly what you need to learn.
-              </p>
-            </motion.div>
-
-            <motion.div 
-              className="bg-card border border-border/60 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300"
-              whileHover={{ y: -4 }}
-            >
-              <div className="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-4">
-                <BookOpen className="w-6 h-6 text-secondary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3" style={{fontFamily: 'Outfit'}}>Follow Your Roadmap</h3>
-              <p className="text-slate-600 leading-relaxed">
-                Get a personalized learning path with curated resources and track your progress.
-              </p>
-            </motion.div>
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 max-w-2xl">
+            <h2 className="text-4xl font-semibold text-slate-950">A cleaner workflow from ambition to execution</h2>
+            <p className="mt-4 text-slate-600">The UI now presents a more product-ready experience with clearer hierarchy, better spacing, and stronger visual consistency across the flow.</p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {features.map(({ icon: Icon, title, description }, index) => (
+              <motion.div key={title} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="rounded-[28px] border border-slate-200 bg-white p-8 shadow-sm">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-900">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <h3 className="mb-3 text-2xl font-semibold text-slate-950">{title}</h3>
+                <p className="leading-7 text-slate-600">{description}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-primary to-green-800 text-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-            <div>
-              <div className="text-5xl font-bold mb-2" style={{fontFamily: 'Outfit'}}>95%</div>
-              <div className="text-slate-200">Career Clarity Improvement</div>
+      <section className="px-6 py-20">
+        <div className="mx-auto grid max-w-7xl gap-6 rounded-[36px] bg-slate-950 px-8 py-10 text-white md:grid-cols-3 md:px-12">
+          {[
+            ["6+", "Career paths available"],
+            ["Personalised", "Roadmaps built from your assessment"],
+            ["Single flow", "From role selection to resources"],
+          ].map(([value, label]) => (
+            <div key={label} className="rounded-[28px] border border-white/10 bg-white/5 p-6">
+              <div className="text-4xl font-bold">{value}</div>
+              <div className="mt-2 text-slate-300">{label}</div>
             </div>
-            <div>
-              <div className="text-5xl font-bold mb-2" style={{fontFamily: 'Outfit'}}>6+</div>
-              <div className="text-slate-200">Career Paths Available</div>
-            </div>
-            <div>
-              <div className="text-5xl font-bold mb-2" style={{fontFamily: 'Outfit'}}>AI</div>
-              <div className="text-slate-200">Powered Recommendations</div>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <Award className="w-16 h-16 text-primary mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-6" style={{fontFamily: 'Outfit'}}>
-            Ready to Transform Your Career?
-          </h2>
-          <p className="text-lg text-slate-600 mb-8">
-            Join students worldwide who are taking control of their career development.
-          </p>
-          <Link to="/register">
-            <Button data-testid="cta-get-started-btn" size="lg" className="bg-primary hover:bg-primary/90 text-white rounded-full px-12 h-12 font-medium">
-              Get Started Free <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </Link>
+      <section className="px-6 pb-20 pt-8">
+        <div className="mx-auto max-w-4xl rounded-[36px] border border-slate-100 bg-gradient-to-r from-slate-50 to-white p-10 text-center shadow-sm">
+          <Award className="mx-auto mb-5 h-14 w-14 text-slate-800" />
+          <h2 className="text-4xl font-bold text-slate-950">Ready to make the platform feel like a real product?</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">This pass upgrades the visual system, makes the UX easier to scan, and leaves the app in a better state for deployment and demo day nerves.</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Link to="/register"><Button size="lg" className="h-12 rounded-full bg-slate-950 px-8 text-white hover:bg-slate-900">Create account</Button></Link>
+            <Link to="/login"><Button size="lg" variant="outline" className="h-12 rounded-full px-8">Sign in</Button></Link>
+          </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-slate-900 text-slate-300 py-12 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Target className="w-6 h-6 text-primary" />
-            <span className="text-xl font-bold text-white" style={{fontFamily: 'Outfit'}}>SkillGapAI</span>
-          </div>
-          <p className="text-sm">© 2025 SkillGapAI. Empowering your career journey.</p>
-        </div>
-      </footer>
     </div>
   );
 };

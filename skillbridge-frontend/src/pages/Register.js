@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Target, Mail, Lock, User } from 'lucide-react';
+import { Target, Mail, Lock, User, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { toast } from 'sonner';
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { API } from "../lib/api";
+import { AuthContext } from '../context/AuthContext';
+import { API } from '../lib/api';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -46,112 +45,70 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
-      {/* Left Side - Form */}
-      <div className="flex items-center justify-center p-6 bg-slate-50">
-        <motion.div 
-          className="w-full max-w-md"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="mb-8">
-            <Link to="/" className="flex items-center gap-2 mb-8">
-              <Target className="w-8 h-8 text-primary" />
-              <span className="text-2xl font-bold text-primary" style={{fontFamily: 'Outfit'}}>SkillGapAI</span>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,_rgba(16,185,129,0.16),_transparent_28%),linear-gradient(180deg,#f8fafc_0%,#ffffff_100%)]">
+      <div className="mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-stretch px-6 py-10 lg:grid-cols-2 lg:gap-10">
+        <div className="flex items-center justify-center order-2 lg:order-1">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="w-full max-w-md rounded-[32px] border border-white/70 bg-white/85 p-8 shadow-2xl shadow-slate-900/10 backdrop-blur-xl sm:p-10">
+            <Link to="/" className="mb-8 flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-white"><Target className="h-5 w-5" /></div>
+              <div>
+                <div className="text-lg font-semibold text-slate-950">SkillBridge</div>
+                <div className="text-xs text-slate-500">Create your workspace</div>
+              </div>
             </Link>
-            <h1 className="text-3xl font-bold mb-2" style={{fontFamily: 'Outfit'}}>Create Account</h1>
-            <p className="text-slate-600">Start your career transformation journey</p>
-          </div>
 
-          <form onSubmit={handleRegister} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="John Doe"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="pl-10 h-12"
-                  required
-                  data-testid="register-name-input"
-                />
-              </div>
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-slate-950">Create account</h2>
+              <p className="mt-2 text-slate-600">Start building a structured path to your target role.</p>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 h-12"
-                  required
-                  data-testid="register-email-input"
-                />
+            <form onSubmit={handleRegister} className="space-y-5">
+              <div className="space-y-2">
+                <Label htmlFor="name">Full name</Label>
+                <div className="relative">
+                  <User className="absolute left-3 top-3.5 h-5 w-5 text-slate-400" />
+                  <Input id="name" type="text" placeholder="Jane Doe" value={name} onChange={(e) => setName(e.target.value)} className="h-12 rounded-2xl border-slate-200 pl-10" required data-testid="register-name-input" />
+                </div>
               </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 h-12"
-                  required
-                  minLength={6}
-                  data-testid="register-password-input"
-                />
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3.5 h-5 w-5 text-slate-400" />
+                  <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} className="h-12 rounded-2xl border-slate-200 pl-10" required data-testid="register-email-input" />
+                </div>
               </div>
-              <p className="text-xs text-slate-500">Minimum 6 characters</p>
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3.5 h-5 w-5 text-slate-400" />
+                  <Input id="password" type="password" placeholder="Minimum 6 characters" value={password} onChange={(e) => setPassword(e.target.value)} className="h-12 rounded-2xl border-slate-200 pl-10" required minLength={6} data-testid="register-password-input" />
+                </div>
+              </div>
+              <Button type="submit" className="h-12 w-full rounded-full bg-slate-950 text-white hover:bg-slate-900" disabled={loading} data-testid="register-submit-btn">
+                {loading ? 'Creating account…' : 'Create account'} <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </form>
 
-            <Button 
-              type="submit" 
-              className="w-full h-12 bg-primary hover:bg-primary/90 text-white rounded-full font-medium"
-              disabled={loading}
-              data-testid="register-submit-btn"
-            >
-              {loading ? 'Creating Account...' : 'Create Account'}
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-slate-600">
-              Already have an account?{' '}
-              <Link to="/login" className="text-primary font-semibold hover:underline" data-testid="register-to-login-link">
-                Sign In
-              </Link>
+            <p className="mt-6 text-center text-sm text-slate-600">
+              Already have an account? <Link to="/login" className="font-semibold text-slate-900 hover:underline">Sign in</Link>
             </p>
+          </motion.div>
+        </div>
+
+        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="order-1 hidden rounded-[36px] bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-10 text-white lg:flex lg:flex-col lg:justify-between lg:order-2">
+          <div>
+            <h1 className="max-w-lg text-5xl font-bold leading-tight">Build a sharper career plan from day one.</h1>
+            <p className="mt-6 max-w-lg text-lg leading-8 text-slate-200">Set up your account and start using assessments, gap analysis, resource recommendations, and progress tracking in one flow.</p>
+          </div>
+          <div className="grid gap-4">
+            {['Role selection', 'Skill readiness analysis', 'Personalised resources'].map((item) => (
+              <div key={item} className="flex items-center gap-3 rounded-3xl border border-white/10 bg-white/5 p-4 text-sm text-slate-100">
+                <CheckCircle2 className="h-5 w-5 text-slate-300" />
+                {item}
+              </div>
+            ))}
           </div>
         </motion.div>
-      </div>
-
-      {/* Right Side - Image */}
-      <div className="hidden md:block relative overflow-hidden">
-        <img 
-          src="https://images.unsplash.com/photo-1758873268364-15bef4162221?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHw0fHxtb2Rlcm4lMjBvZmZpY2UlMjB0ZWFtJTIwY29sbGFib3JhdGlvbnxlbnwwfHx8fDE3NjkyMzc0Nzd8MA&ixlib=rb-4.1.0&q=85"
-          alt="Team collaboration"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-primary/20 backdrop-blur-sm flex items-center justify-center">
-          <div className="text-white text-center p-8">
-            <h2 className="text-4xl font-bold mb-4" style={{fontFamily: 'Outfit'}}>Join SkillGapAI</h2>
-            <p className="text-lg max-w-md">Discover your career path with AI-powered skill gap analysis and personalized learning roadmaps</p>
-          </div>
-        </div>
       </div>
     </div>
   );

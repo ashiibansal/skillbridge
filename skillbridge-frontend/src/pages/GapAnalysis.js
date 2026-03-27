@@ -33,13 +33,16 @@ const GapAnalysis = () => {
           },
         });
 
-        if (!res.ok) throw new Error("Failed to load gap analysis");
+        const data = await res.json(); // ✅ read once
 
-        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to load gap analysis");
+        }
+
         setAnalysis(data);
       } catch (err) {
         console.error(err);
-        toast.error("Failed to load gap analysis");
+        toast.error(err.message || "Failed to load gap analysis");
       } finally {
         setLoading(false);
       }
@@ -49,26 +52,55 @@ const GapAnalysis = () => {
   }, [assessmentId, token]);
 
   const getRadarData = () => {
-    if (!analysis) return [];
-    return analysis.skills.map((s) => ({
+    if (!analysis?.skill_gaps?.length) return [];
+
+    return analysis.skill_gaps.map((gap) => ({
       skill:
-        s.skill.length > 15 ? s.skill.substring(0, 15) + "…" : s.skill,
-      current: s.currentLevel,
-      required: s.requiredLevel,
+        gap.skill.length > 15
+          ? gap.skill.substring(0, 15) + "..."
+          : gap.skill,
+      current: gap.current_level,
+      required: gap.required_level,
     }));
   };
 
-  const generateRoadmap = () => {
-    // Placeholder until roadmap backend exists
-    toast.info("Roadmap generation coming next 🚧");
+  const generateRoadmap = async () => {
+    try {
+      const res = await fetch(`${API}/roadmap/${assessmentId}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json(); // ✅ read once
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to generate roadmap");
+      }
+
+      navigate(`/roadmap/${data._id}`);
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message || "Failed to generate roadmap");
+    }
   };
 
   if (loading) {
     return (
       <Layout>
-        <div className="flex flex-col items-center justify-center h-64">
-          <div className="animate-spin h-12 w-12 border-4 border-primary border-t-transparent rounded-full mb-4" />
-          <p className="text-slate-600">Analyzing your skills…</p>
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!analysis) {
+    return (
+      <Layout>
+        <div className="text-center mt-20 text-slate-600">
+          No analysis data found.
         </div>
       </Layout>
     );
@@ -80,9 +112,6 @@ const GapAnalysis = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">Skill Gap Analysis</h1>
-          <p className="text-slate-600">
-            Insights for the role: <strong>{analysis.role}</strong>
-          </p>
         </div>
 
         {/* Readiness Score */}
@@ -97,12 +126,12 @@ const GapAnalysis = () => {
                 Career Readiness Score
               </div>
               <div className="text-6xl font-bold">
-                {analysis.readinessScore}%
+                {analysis.readiness_score ?? 0}%
               </div>
               <p className="text-slate-200 mt-2">
-                {analysis.readinessScore >= 80
+                {analysis.readiness_score >= 80
                   ? "Excellent! You’re nearly role-ready."
-                  : analysis.readinessScore >= 60
+                  : analysis.readiness_score >= 60
                   ? "Good progress! Focus on gaps below."
                   : "Great start! Build fundamentals."}
               </p>
@@ -121,11 +150,12 @@ const GapAnalysis = () => {
             <h2 className="text-2xl font-semibold mb-4">
               Skills Overview
             </h2>
+
             <ResponsiveContainer width="100%" height={300}>
               <RadarChart data={getRadarData()}>
                 <PolarGrid stroke="#e2e8f0" />
                 <PolarAngleAxis dataKey="skill" tick={{ fontSize: 12 }} />
-                <PolarRadiusAxis angle={90} domain={[0, 100]} />
+                <PolarRadiusAxis angle={90} domain={[0, 5]} />
                 <Radar
                   name="Current"
                   dataKey="current"
@@ -145,27 +175,18 @@ const GapAnalysis = () => {
             </ResponsiveContainer>
           </motion.div>
 
-          {/* Text Insights */}
+          {/* AI Insights */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm"
           >
             <h2 className="text-2xl font-semibold mb-4">
-              Key Insights
+              AI Insights
             </h2>
-            <ul className="space-y-3 text-slate-700">
-              {analysis.gaps.length === 0 ? (
-                <li>🎉 No critical gaps — great job!</li>
-              ) : (
-                analysis.gaps.map((g) => (
-                  <li key={g.skill}>
-                    <strong>{g.skill}</strong>: improve by{" "}
-                    <strong>{g.gap}%</strong>
-                  </li>
-                ))
-              )}
-            </ul>
+            <p className="text-slate-700 leading-relaxed">
+              {analysis.ai_insights || "No insights available."}
+            </p>
           </motion.div>
         </div>
 
@@ -179,13 +200,13 @@ const GapAnalysis = () => {
             Skill Gaps to Address
           </h2>
 
-          {analysis.gaps.length === 0 ? (
+          {!analysis.skill_gaps?.length ? (
             <p className="text-slate-600">
               You meet all required skill levels 🎉
             </p>
           ) : (
             <div className="space-y-4">
-              {analysis.gaps.map((gap) => (
+              {analysis.skill_gaps.map((gap) => (
                 <div
                   key={gap.skill}
                   className="flex items-center justify-between p-4 bg-slate-50 rounded-lg border"
@@ -198,12 +219,12 @@ const GapAnalysis = () => {
                       </span>
                     </div>
                     <div className="text-sm text-slate-600 ml-7">
-                      Current: {gap.currentLevel} | Required:{" "}
-                      {gap.requiredLevel}
+                      Current: {gap.current_level} | Required:{" "}
+                      {gap.required_level} | Gap: {gap.gap}
                     </div>
                   </div>
                   <div className="text-lg font-bold text-accent">
-                    +{gap.gap}%
+                    {gap.priority}
                   </div>
                 </div>
               ))}
