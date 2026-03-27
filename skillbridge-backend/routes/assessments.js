@@ -20,50 +20,54 @@ router.get("/role/:roleId", authMiddleware, async (req, res) => {
     res.json({
       roleId: role._id,
       title: role.title,
-      skills: role.skills.map((skill) => ({
-        skill,
-        maxScore: 100,
+      skills: role.required_skills.map((skill) => ({
+        name: skill.name,
+        category: skill.category,
+        required_level: skill.required_level
       })),
     });
+
   } catch (error) {
     console.error("ASSESSMENT TEMPLATE ERROR:", error);
     res.status(500).json({ message: "Failed to load assessment" });
   }
 });
 
+
 /**
  * SUBMIT assessment
  */
 router.post("/", authMiddleware, async (req, res) => {
-    try {
-      console.log("ASSESSMENT BODY:", req.body);
-      console.log("USER:", req.user);
-  
-      const { roleId, answers } = req.body;
-  
-      if (!roleId) {
-        return res.status(400).json({ message: "roleId missing" });
-      }
-  
-      if (!Array.isArray(answers)) {
-        return res.status(400).json({ message: "answers must be an array" });
-      }
-  
-      const assessment = await Assessment.create({
-        user: req.user.id,
-        role: roleId,
-        answers,
-        completed: true,
-      });
-  
-      res.status(201).json({
-        message: "Assessment submitted",
-        assessmentId: assessment._id,
-      });
-    } catch (error) {
-      console.error("ASSESSMENT SUBMIT ERROR:", error);
-      res.status(500).json({ message: error.message });
+  try {
+    console.log("ASSESSMENT BODY:", req.body);
+    console.log("USER:", req.user);
+
+    const { roleId, answers } = req.body;
+
+    if (!roleId) {
+      return res.status(400).json({ message: "roleId missing" });
     }
-  });
+
+    if (!Array.isArray(answers)) {
+      return res.status(400).json({ message: "answers must be an array" });
+    }
+
+    const assessment = await Assessment.create({
+      user: req.user.id,
+      role: roleId,
+      answers,
+      completed: true,
+    });
+
+    res.status(201).json({
+      message: "Assessment submitted",
+      assessmentId: assessment._id,
+    });
+
+  } catch (error) {
+    console.error("ASSESSMENT SUBMIT ERROR:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
 
 export default router;

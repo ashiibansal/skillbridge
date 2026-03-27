@@ -2,11 +2,28 @@ import mongoose from "mongoose";
 
 const roleSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    skills: { type: [String], default: [] },
-    roadmap: { type: [String], default: [] }, // 👈 ADD THIS
-    level: { type: String, default: "Beginner" },
+    title: String,
+    description: String,
+    average_salary: String,
+    growth_rate: String,
+    required_skills: [
+      {
+        name: {
+          type: String,
+          required: true
+        },
+        category: {
+          type: String,
+          required: true
+        },
+        required_level: {
+          type: Number,
+          required: true,
+          min: 1,
+          max: 5
+        }
+      }
+    ]
   },
   { timestamps: true }
 );

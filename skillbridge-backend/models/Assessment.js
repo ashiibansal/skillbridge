@@ -23,8 +23,8 @@ const assessmentSchema = new mongoose.Schema(
         score: {
           type: Number,
           required: true,
-          min: 0,
-          max: 100,
+          min: 1,
+          max: 5,
         },
       },
     ],

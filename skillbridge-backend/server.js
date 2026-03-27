@@ -1,13 +1,21 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
+
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import rolesRoutes from "./routes/roles.js";
 import assessmentRoutes from "./routes/assessments.js";
 import gapAnalysisRoutes from "./routes/gapAnalysis.js";
+import roadmapRoutes from "./routes/roadmap.js";
+import progressRoutes from "./routes/progress.js";
+import resourcesRoutes from "./routes/resources.js";
+import profileRoutes from "./routes/profileRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
 
-dotenv.config();
+
+
 connectDB();
 
 const app = express();
@@ -49,6 +57,17 @@ app.use("/api/roles", rolesRoutes);
 app.use("/api/assessments", assessmentRoutes);
 
 app.use("/api/gap-analysis", gapAnalysisRoutes);
+
+app.use("/api/roadmap", roadmapRoutes);
+
+app.use("/api/progress", progressRoutes);
+
+app.use("/api/resources", resourcesRoutes);
+
+app.use("/api/profile", profileRoutes);
+
+app.use("/api/chat", chatRoutes);
+
 
 /**
  * ✅ Ping test

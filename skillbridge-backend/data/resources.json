@@ -1,0 +1,30 @@
+{
+    "React": [
+      {
+        "title": "React Official Docs",
+        "url": "https://react.dev",
+        "type": "Documentation"
+      },
+      {
+        "title": "React Course - Scrimba",
+        "url": "https://scrimba.com/learn/react",
+        "type": "Course"
+      }
+    ],
+  
+    "State Management": [
+      {
+        "title": "Redux Toolkit Guide",
+        "url": "https://redux-toolkit.js.org",
+        "type": "Documentation"
+      }
+    ],
+  
+    "Web Performance Optimization": [
+      {
+        "title": "Web.dev Performance Guide",
+        "url": "https://web.dev/performance",
+        "type": "Documentation"
+      }
+    ]
+  }

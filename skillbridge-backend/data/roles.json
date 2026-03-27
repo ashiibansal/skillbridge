@@ -1,0 +1,218 @@
+[
+  {
+    "title": "Frontend Developer",
+    "description": "Build modern, interactive web user interfaces.",
+    "average_salary": "$80,000 - $120,000",
+    "growth_rate": "High",
+    "required_skills": [
+      { "name": "HTML", "category": "Frontend", "required_level": 4 },
+      { "name": "CSS", "category": "Frontend", "required_level": 4 },
+      { "name": "JavaScript", "category": "Programming", "required_level": 5 },
+      { "name": "TypeScript", "category": "Programming", "required_level": 4 },
+      { "name": "React", "category": "Frontend", "required_level": 5 },
+      { "name": "Next.js", "category": "Frontend", "required_level": 4 },
+      { "name": "State Management", "category": "Frontend", "required_level": 4 },
+      { "name": "Responsive Design", "category": "Frontend", "required_level": 4 },
+      { "name": "Git", "category": "Tooling", "required_level": 3 },
+      { "name": "Web Performance Optimization", "category": "Frontend", "required_level": 4 }
+    ]
+  },
+  {
+    "title": "Backend Developer",
+    "description": "Design APIs, manage databases, and build scalable systems.",
+    "average_salary": "$90,000 - $130,000",
+    "growth_rate": "High",
+    "required_skills": [
+      { "name": "Node.js", "category": "Backend", "required_level": 5 },
+      { "name": "Express.js", "category": "Backend", "required_level": 4 },
+      { "name": "REST APIs", "category": "Backend", "required_level": 5 },
+      { "name": "Authentication (JWT/OAuth)", "category": "Backend", "required_level": 4 },
+      { "name": "MongoDB", "category": "Database", "required_level": 4 },
+      { "name": "SQL (PostgreSQL/MySQL)", "category": "Database", "required_level": 4 },
+      { "name": "System Design Basics", "category": "Backend", "required_level": 3 },
+      { "name": "Caching (Redis)", "category": "Backend", "required_level": 3 },
+      { "name": "Docker Basics", "category": "DevOps", "required_level": 3 },
+      { "name": "Git", "category": "Tooling", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "DevOps Engineer",
+    "description": "Manage infrastructure, automation, CI/CD, and cloud systems.",
+    "average_salary": "$100,000 - $150,000",
+    "growth_rate": "Very High",
+    "required_skills": [
+      { "name": "Linux", "category": "DevOps", "required_level": 5 },
+      { "name": "Bash Scripting", "category": "DevOps", "required_level": 4 },
+      { "name": "Docker", "category": "DevOps", "required_level": 5 },
+      { "name": "Kubernetes", "category": "DevOps", "required_level": 5 },
+      { "name": "CI/CD Pipelines", "category": "DevOps", "required_level": 5 },
+      { "name": "GitHub Actions / Jenkins", "category": "DevOps", "required_level": 4 },
+      { "name": "AWS / GCP / Azure", "category": "Cloud", "required_level": 5 },
+      { "name": "Infrastructure as Code (Terraform)", "category": "DevOps", "required_level": 4 },
+      { "name": "Monitoring (Prometheus/Grafana)", "category": "DevOps", "required_level": 4 },
+      { "name": "Networking Basics", "category": "DevOps", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "Full Stack Developer",
+    "description": "Develop both frontend interfaces and backend services.",
+    "average_salary": "$95,000 - $135,000",
+    "growth_rate": "Very High",
+    "required_skills": [
+      { "name": "HTML", "category": "Frontend", "required_level": 4 },
+      { "name": "CSS", "category": "Frontend", "required_level": 4 },
+      { "name": "JavaScript", "category": "Programming", "required_level": 5 },
+      { "name": "React", "category": "Frontend", "required_level": 4 },
+      { "name": "Node.js", "category": "Backend", "required_level": 4 },
+      { "name": "Express.js", "category": "Backend", "required_level": 4 },
+      { "name": "MongoDB", "category": "Database", "required_level": 4 },
+      { "name": "SQL", "category": "Database", "required_level": 3 },
+      { "name": "REST APIs", "category": "Backend", "required_level": 4 },
+      { "name": "Git", "category": "Tooling", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "Data Scientist",
+    "description": "Analyze data, build machine learning models, and extract insights.",
+    "average_salary": "$110,000 - $160,000",
+    "growth_rate": "Very High",
+    "required_skills": [
+      { "name": "Python", "category": "Programming", "required_level": 5 },
+      { "name": "Statistics", "category": "Data Science", "required_level": 5 },
+      { "name": "Machine Learning", "category": "Data Science", "required_level": 5 },
+      { "name": "Pandas", "category": "Data Science", "required_level": 4 },
+      { "name": "NumPy", "category": "Data Science", "required_level": 4 },
+      { "name": "Scikit-Learn", "category": "Data Science", "required_level": 4 },
+      { "name": "Data Visualization", "category": "Data Science", "required_level": 4 },
+      { "name": "SQL", "category": "Database", "required_level": 4 },
+      { "name": "Deep Learning Basics", "category": "AI", "required_level": 3 },
+      { "name": "Git", "category": "Tooling", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "Mobile App Developer",
+    "description": "Build mobile applications for Android and iOS platforms.",
+    "average_salary": "$90,000 - $130,000",
+    "growth_rate": "High",
+    "required_skills": [
+      { "name": "JavaScript", "category": "Programming", "required_level": 4 },
+      { "name": "React Native", "category": "Mobile", "required_level": 5 },
+      { "name": "Flutter", "category": "Mobile", "required_level": 4 },
+      { "name": "Dart", "category": "Programming", "required_level": 3 },
+      { "name": "Android Development", "category": "Mobile", "required_level": 4 },
+      { "name": "iOS Development", "category": "Mobile", "required_level": 3 },
+      { "name": "REST APIs", "category": "Backend", "required_level": 3 },
+      { "name": "Firebase", "category": "Backend", "required_level": 3 },
+      { "name": "App Deployment", "category": "Mobile", "required_level": 3 },
+      { "name": "Git", "category": "Tooling", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "AI Engineer",
+    "description": "Develop and deploy artificial intelligence and machine learning systems.",
+    "average_salary": "$120,000 - $170,000",
+    "growth_rate": "Extremely High",
+    "required_skills": [
+      { "name": "Python", "category": "Programming", "required_level": 5 },
+      { "name": "Machine Learning", "category": "AI", "required_level": 5 },
+      { "name": "Deep Learning", "category": "AI", "required_level": 5 },
+      { "name": "TensorFlow", "category": "AI", "required_level": 4 },
+      { "name": "PyTorch", "category": "AI", "required_level": 4 },
+      { "name": "Data Structures & Algorithms", "category": "Programming", "required_level": 4 },
+      { "name": "Linear Algebra", "category": "Mathematics", "required_level": 4 },
+      { "name": "Model Deployment", "category": "AI", "required_level": 3 },
+      { "name": "MLOps Basics", "category": "AI", "required_level": 3 },
+      { "name": "Git", "category": "Tooling", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "Cybersecurity Engineer",
+    "description": "Protect systems, networks, and data from cyber threats and vulnerabilities.",
+    "average_salary": "$100,000 - $150,000",
+    "growth_rate": "Very High",
+    "required_skills": [
+      { "name": "Networking Fundamentals", "category": "Security", "required_level": 5 },
+      { "name": "Linux", "category": "Security", "required_level": 4 },
+      { "name": "Penetration Testing", "category": "Security", "required_level": 5 },
+      { "name": "Ethical Hacking", "category": "Security", "required_level": 4 },
+      { "name": "Cryptography Basics", "category": "Security", "required_level": 4 },
+      { "name": "Security Tools (Wireshark, Metasploit)", "category": "Security", "required_level": 4 },
+      { "name": "Web Security", "category": "Security", "required_level": 4 },
+      { "name": "Threat Analysis", "category": "Security", "required_level": 3 },
+      { "name": "Incident Response", "category": "Security", "required_level": 3 },
+      { "name": "Git", "category": "Tooling", "required_level": 2 }
+    ]
+  },
+  {
+    "title": "Cloud Engineer",
+    "description": "Design, deploy and manage applications on cloud platforms.",
+    "average_salary": "$105,000 - $145,000",
+    "growth_rate": "Very High",
+    "required_skills": [
+      { "name": "AWS / GCP / Azure", "category": "Cloud", "required_level": 5 },
+      { "name": "Linux", "category": "Cloud", "required_level": 4 },
+      { "name": "Docker", "category": "DevOps", "required_level": 4 },
+      { "name": "Kubernetes", "category": "DevOps", "required_level": 4 },
+      { "name": "Terraform", "category": "Infrastructure", "required_level": 4 },
+      { "name": "Networking", "category": "Cloud", "required_level": 4 },
+      { "name": "CI/CD", "category": "DevOps", "required_level": 3 },
+      { "name": "Monitoring Tools", "category": "Cloud", "required_level": 3 },
+      { "name": "Python", "category": "Programming", "required_level": 3 },
+      { "name": "Git", "category": "Tooling", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "Machine Learning Engineer",
+    "description": "Build, train, and deploy machine learning models in production systems.",
+    "average_salary": "$115,000 - $165,000",
+    "growth_rate": "Extremely High",
+    "required_skills": [
+      { "name": "Python", "category": "Programming", "required_level": 5 },
+      { "name": "Machine Learning", "category": "AI", "required_level": 5 },
+      { "name": "Deep Learning", "category": "AI", "required_level": 4 },
+      { "name": "TensorFlow", "category": "AI", "required_level": 4 },
+      { "name": "PyTorch", "category": "AI", "required_level": 4 },
+      { "name": "Statistics", "category": "Mathematics", "required_level": 4 },
+      { "name": "Data Processing", "category": "AI", "required_level": 4 },
+      { "name": "Model Deployment", "category": "AI", "required_level": 3 },
+      { "name": "MLOps", "category": "AI", "required_level": 3 },
+      { "name": "Git", "category": "Tooling", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "UI/UX Designer",
+    "description": "Design user-friendly interfaces and improve user experience of digital products.",
+    "average_salary": "$70,000 - $110,000",
+    "growth_rate": "High",
+    "required_skills": [
+      { "name": "Figma", "category": "Design", "required_level": 5 },
+      { "name": "UI Design", "category": "Design", "required_level": 5 },
+      { "name": "UX Research", "category": "Design", "required_level": 4 },
+      { "name": "Wireframing", "category": "Design", "required_level": 4 },
+      { "name": "Prototyping", "category": "Design", "required_level": 4 },
+      { "name": "User Testing", "category": "Design", "required_level": 3 },
+      { "name": "Responsive Design", "category": "Design", "required_level": 3 },
+      { "name": "Design Systems", "category": "Design", "required_level": 3 },
+      { "name": "Interaction Design", "category": "Design", "required_level": 3 },
+      { "name": "Communication Skills", "category": "Soft Skills", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "Software Tester (QA Engineer)",
+    "description": "Test software applications to identify bugs and ensure product quality.",
+    "average_salary": "$75,000 - $110,000",
+    "growth_rate": "High",
+    "required_skills": [
+      { "name": "Manual Testing", "category": "Testing", "required_level": 5 },
+      { "name": "Automation Testing", "category": "Testing", "required_level": 4 },
+      { "name": "Selenium", "category": "Testing", "required_level": 4 },
+      { "name": "Test Case Design", "category": "Testing", "required_level": 4 },
+      { "name": "Bug Tracking Tools", "category": "Testing", "required_level": 3 },
+      { "name": "API Testing", "category": "Testing", "required_level": 3 },
+      { "name": "Performance Testing", "category": "Testing", "required_level": 3 },
+      { "name": "CI/CD Integration", "category": "Testing", "required_level": 2 },
+      { "name": "SQL", "category": "Database", "required_level": 2 },
+      { "name": "Git", "category": "Tooling", "required_level": 2 }
+    ]
+  }
+]
