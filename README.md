@@ -88,8 +88,4 @@ The objective of SkillBridge is to provide students with a centralized platform 
 	•	Recommends relevant learning resources
 	•	Supports structured and informed career planning
 
-  ---
 
- ## 👥 Team
-
-This project is developed by a team of 6 members as part of an Agile methodology coursework, with clearly defined roles including Product Owner, Scrum Master, Developers, and QA/Documentation.
