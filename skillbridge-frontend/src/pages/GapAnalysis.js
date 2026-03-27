@@ -9,7 +9,7 @@ import {
   Radar,
   ResponsiveContainer,
 } from "recharts";
-import { AlertCircle, TrendingUp, ArrowRight } from "lucide-react";
+import { AlertCircle, TrendingUp, ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "../components/ui/button";
 import Layout from "../components/Layout";
 import { toast } from "sonner";
@@ -33,7 +33,7 @@ const GapAnalysis = () => {
           },
         });
 
-        const data = await res.json(); // ✅ read once
+        const data = await res.json();
 
         if (!res.ok) {
           throw new Error(data.message || "Failed to load gap analysis");
@@ -56,34 +56,16 @@ const GapAnalysis = () => {
 
     return analysis.skill_gaps.map((gap) => ({
       skill:
-        gap.skill.length > 15
-          ? gap.skill.substring(0, 15) + "..."
-          : gap.skill,
-      current: gap.current_level,
-      required: gap.required_level,
+        String(gap.skill || "").length > 15
+          ? `${String(gap.skill).substring(0, 15)}...`
+          : String(gap.skill || ""),
+      current: Number(gap.current_level || 0),
+      required: Number(gap.required_level || 0),
     }));
   };
 
-  const generateRoadmap = async () => {
-    try {
-      const res = await fetch(`${API}/roadmap/${assessmentId}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await res.json(); // ✅ read once
-
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to generate roadmap");
-      }
-
-      navigate(`/roadmap/${data._id}`);
-    } catch (err) {
-      console.error(err);
-      toast.error(err.message || "Failed to generate roadmap");
-    }
+  const goToResources = () => {
+    navigate("/resources");
   };
 
   if (loading) {
@@ -118,7 +100,7 @@ const GapAnalysis = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-gradient-to-br from-primary to-green-800 rounded-xl p-8 text-white mb-8"
+          className="bg-gradient-to-br from-primary to-slate-900 rounded-xl p-8 text-white mb-8"
         >
           <div className="flex items-center justify-between">
             <div>
@@ -147,9 +129,7 @@ const GapAnalysis = () => {
             animate={{ opacity: 1, x: 0 }}
             className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm"
           >
-            <h2 className="text-2xl font-semibold mb-4">
-              Skills Overview
-            </h2>
+            <h2 className="text-2xl font-semibold mb-4">Skills Overview</h2>
 
             <ResponsiveContainer width="100%" height={300}>
               <RadarChart data={getRadarData()}>
@@ -159,15 +139,15 @@ const GapAnalysis = () => {
                 <Radar
                   name="Current"
                   dataKey="current"
-                  stroke="#14532d"
-                  fill="#14532d"
+                  stroke="#1e3a8a"
+                  fill="#1e3a8a"
                   fillOpacity={0.3}
                 />
                 <Radar
                   name="Required"
                   dataKey="required"
-                  stroke="#ea580c"
-                  fill="#ea580c"
+                  stroke="#475569"
+                  fill="#475569"
                   fillOpacity={0.1}
                   strokeDasharray="5 5"
                 />
@@ -181,9 +161,7 @@ const GapAnalysis = () => {
             animate={{ opacity: 1, x: 0 }}
             className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm"
           >
-            <h2 className="text-2xl font-semibold mb-4">
-              AI Insights
-            </h2>
+            <h2 className="text-2xl font-semibold mb-4">AI Insights</h2>
             <p className="text-slate-700 leading-relaxed">
               {analysis.ai_insights || "No insights available."}
             </p>
@@ -196,9 +174,7 @@ const GapAnalysis = () => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm mb-8"
         >
-          <h2 className="text-2xl font-semibold mb-6">
-            Skill Gaps to Address
-          </h2>
+          <h2 className="text-2xl font-semibold mb-6">Skill Gaps to Address</h2>
 
           {!analysis.skill_gaps?.length ? (
             <p className="text-slate-600">
@@ -214,13 +190,10 @@ const GapAnalysis = () => {
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <AlertCircle className="w-5 h-5 text-accent" />
-                      <span className="font-semibold text-lg">
-                        {gap.skill}
-                      </span>
+                      <span className="font-semibold text-lg">{gap.skill}</span>
                     </div>
                     <div className="text-sm text-slate-600 ml-7">
-                      Current: {gap.current_level} | Required:{" "}
-                      {gap.required_level} | Gap: {gap.gap}
+                      Current: {gap.current_level} | Required: {gap.required_level} | Gap: {gap.gap}
                     </div>
                   </div>
                   <div className="text-lg font-bold text-accent">
@@ -235,11 +208,11 @@ const GapAnalysis = () => {
         {/* CTA */}
         <div className="flex justify-end">
           <Button
-            onClick={generateRoadmap}
+            onClick={goToResources}
             className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 h-12"
           >
-            Generate Learning Roadmap
-            <ArrowRight className="ml-2 w-5 h-5" />
+            View Learning Resources
+            <BookOpen className="ml-2 w-5 h-5" />
           </Button>
         </div>
       </div>
