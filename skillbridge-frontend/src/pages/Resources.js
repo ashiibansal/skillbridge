@@ -22,6 +22,57 @@ import Layout from "../components/Layout";
 import { AuthContext } from "../context/AuthContext";
 import { API } from "../lib/api";
 import { toast } from "sonner";
+import {
+  getGuidanceFallbacks,
+  normalizeText,
+} from "../data/resourceGuidanceMap";
+
+const isRoadmapResource = (resource) => {
+  const type = normalizeText(resource?.type);
+  const title = normalizeText(resource?.title);
+  const url = String(resource?.url || "").toLowerCase();
+
+  return (
+    type.includes("roadmap") ||
+    title.includes("roadmap") ||
+    url.includes("roadmap.sh")
+  );
+};
+
+const isLearningResource = (resource) => {
+  if (isRoadmapResource(resource)) return false;
+
+  const type = normalizeText(resource?.type);
+  const title = normalizeText(resource?.title);
+  const url = String(resource?.url || "").toLowerCase();
+
+  return (
+    [
+      "video",
+      "article",
+      "tutorial",
+      "course",
+      "documentation",
+      "docs",
+      "guide",
+      "reading",
+      "resource",
+      "lesson",
+    ].some((label) => type.includes(label)) ||
+    title.includes("tutorial") ||
+    title.includes("course") ||
+    title.includes("guide") ||
+    title.includes("documentation") ||
+    title.includes("docs") ||
+    url.includes("youtube.com") ||
+    url.includes("youtu.be") ||
+    url.includes("udemy.com") ||
+    url.includes("coursera.org") ||
+    url.includes("freecodecamp.org") ||
+    url.includes("developer.mozilla.org") ||
+    url.includes("docs.")
+  );
+};
 
 const Resources = () => {
   const { token } = useContext(AuthContext);
@@ -76,526 +127,20 @@ const Resources = () => {
     return colors[priority] || "bg-slate-50 text-slate-600 border-slate-200";
   };
 
-  const normalizeText = (value) =>
-    String(value || "")
-      .trim()
-      .toLowerCase()
-      .replace(/\+/g, "plus")
-      .replace(/#/g, "sharp")
-      .replace(/&/g, "and")
-      .replace(/\//g, " ")
-      .replace(/[-_]/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
+  const weakAreas = useMemo(
+    () => (Array.isArray(profile?.weak_areas) ? profile.weak_areas : []),
+    [profile?.weak_areas]
+  );
 
-  const knownSkills = Array.isArray(profile?.known_skills) ? profile.known_skills : [];
-  const weakAreas = Array.isArray(profile?.weak_areas) ? profile.weak_areas : [];
-  const learningStyle = Array.isArray(profile?.learning_style) ? profile.learning_style : [];
+  const learningStyle = useMemo(
+    () => (Array.isArray(profile?.learning_style) ? profile.learning_style : []),
+    [profile?.learning_style]
+  );
 
   const focusSkill = profile?.focus_skill || "";
   const targetRole = profile?.target_role || "";
   const preferredDomain = profile?.preferred_domain || "";
   const careerGoal = profile?.career_goal || "";
-
-  const isRoadmapResource = (resource) => {
-    const type = normalizeText(resource?.type);
-    const title = normalizeText(resource?.title);
-    const url = String(resource?.url || "").toLowerCase();
-
-    return (
-      type.includes("roadmap") ||
-      title.includes("roadmap") ||
-      url.includes("roadmap.sh")
-    );
-  };
-
-  const isLearningResource = (resource) => {
-    if (isRoadmapResource(resource)) return false;
-
-    const type = normalizeText(resource?.type);
-    const title = normalizeText(resource?.title);
-    const url = String(resource?.url || "").toLowerCase();
-
-    return (
-      [
-        "video",
-        "article",
-        "tutorial",
-        "course",
-        "documentation",
-        "docs",
-        "guide",
-        "reading",
-        "resource",
-        "lesson",
-      ].some((label) => type.includes(label)) ||
-      title.includes("tutorial") ||
-      title.includes("course") ||
-      title.includes("guide") ||
-      title.includes("documentation") ||
-      title.includes("docs") ||
-      url.includes("youtube.com") ||
-      url.includes("youtu.be") ||
-      url.includes("udemy.com") ||
-      url.includes("coursera.org") ||
-      url.includes("freecodecamp.org") ||
-      url.includes("developer.mozilla.org") ||
-      url.includes("docs.")
-    );
-  };
-
-  const createGuidanceItem = ({
-    type,
-    title,
-    url = "",
-    provider,
-    label,
-    description,
-    icon = "compass",
-  }) => ({
-    type,
-    title,
-    url,
-    provider,
-    label,
-    description,
-    icon,
-    isFallback: true,
-  });
-
-  const getGuidanceFallbacks = (skill) => {
-    const normalized = normalizeText(skill);
-
-    const guidanceMap = {
-      git: [
-        createGuidanceItem({
-          type: "roadmap",
-          title: "Git & GitHub Roadmap",
-          url: "https://roadmap.sh/git-github",
-          provider: "roadmap.sh",
-          label: "Visual roadmap",
-          description: "A clear concept map for version control, collaboration, branching, and workflow basics.",
-          icon: "compass",
-        }),
-      ],
-      github: [
-        createGuidanceItem({
-          type: "roadmap",
-          title: "Git & GitHub Roadmap",
-          url: "https://roadmap.sh/git-github",
-          provider: "roadmap.sh",
-          label: "Visual roadmap",
-          description: "A structured path for repositories, collaboration, pull requests, and Git workflows.",
-          icon: "compass",
-        }),
-      ],
-      javascript: [
-        createGuidanceItem({
-          type: "roadmap",
-          title: "JavaScript Roadmap",
-          url: "https://roadmap.sh/javascript",
-          provider: "roadmap.sh",
-          label: "Visual roadmap",
-          description: "Covers core language concepts, async logic, browser APIs, and ecosystem progression.",
-          icon: "compass",
-        }),
-        createGuidanceItem({
-          type: "learning_path",
-          title: "Full Stack JavaScript Path",
-          url: "https://www.theodinproject.com/paths/full-stack-javascript",
-          provider: "The Odin Project",
-          label: "Structured path",
-          description: "Project-based JavaScript learning with hands-on workflow and practical build steps.",
-          icon: "graduation",
-        }),
-      ],
-      react: [
-        createGuidanceItem({
-          type: "roadmap",
-          title: "React Roadmap",
-          url: "https://roadmap.sh/react",
-          provider: "roadmap.sh",
-          label: "Visual roadmap",
-          description: "A visual progression through React fundamentals, state, routing, and ecosystem tools.",
-          icon: "compass",
-        }),
-        createGuidanceItem({
-          type: "course",
-          title: "Full Stack Open",
-          url: "https://fullstackopen.com/en/",
-          provider: "Full Stack Open",
-          label: "Deep-dive course",
-          description: "A rigorous React-focused course with APIs, testing, state management, and TypeScript.",
-          icon: "map",
-        }),
-      ],
-      frontend: [
-        createGuidanceItem({
-          type: "roadmap",
-          title: "Frontend Roadmap",
-          url: "https://roadmap.sh/frontend",
-          provider: "roadmap.sh",
-          label: "Visual roadmap",
-          description: "High-level frontend knowledge map covering browser fundamentals, frameworks, and tooling.",
-          icon: "compass",
-        }),
-        createGuidanceItem({
-          type: "learning_path",
-          title: "Foundations Path",
-          url: "https://www.theodinproject.com/paths/foundations/courses/foundations",
-          provider: "The Odin Project",
-          label: "Structured path",
-          description: "Excellent practical sequence for HTML, CSS, JavaScript, Git, and developer workflow.",
-          icon: "graduation",
-        }),
-        createGuidanceItem({
-          type: "course",
-          title: "Responsive Web Design",
-          url: "https://www.freecodecamp.org/learn/2022/responsive-web-design/",
-          provider: "freeCodeCamp",
-          label: "Certification path",
-          description: "Beginner-friendly project-based track for layout, styling, accessibility, and responsive design.",
-          icon: "map",
-        }),
-      ],
-      backend: [
-        createGuidanceItem({
-          type: "roadmap",
-          title: "Backend Roadmap",
-          url: "https://roadmap.sh/backend",
-          provider: "roadmap.sh",
-          label: "Visual roadmap",
-          description: "Covers server-side concepts, APIs, databases, auth, deployment, and architecture foundations.",
-          icon: "compass",
-        }),
-        createGuidanceItem({
-          type: "course",
-          title: "Full Stack Open",
-          url: "https://fullstackopen.com/en/",
-          provider: "Full Stack Open",
-          label: "Deep-dive course",
-          description: "Strong backend coverage including APIs, databases, testing, deployment, and modern tooling.",
-          icon: "map",
-        }),
-      ],
-      fullstack: [
-        createGuidanceItem({
-          type: "roadmap",
-          title: "Full Stack Roadmap",
-          url: "https://roadmap.sh/full-stack",
-          provider: "roadmap.sh",
-          label: "Visual roadmap",
-          description: "A broad overview of how frontend, backend, infrastructure, and workflow fit together.",
-          icon: "compass",
-        }),
-        createGuidanceItem({
-          type: "learning_path",
-          title: "Full Stack JavaScript Path",
-          url: "https://www.theodinproject.com/paths/full-stack-javascript",
-          provider: "The Odin Project",
-          label: "Structured path",
-          description: "Project-driven full-stack learning path using JavaScript across the stack.",
-          icon: "graduation",
-        }),
-        createGuidanceItem({
-          type: "course",
-          title: "Full Stack Open",
-          url: "https://fullstackopen.com/en/",
-          provider: "Full Stack Open",
-          label: "Deep-dive course",
-          description: "A more advanced route through React, Node, GraphQL, TypeScript, testing, and CI.",
-          icon: "map",
-        }),
-      ],
-      python: [
-        createGuidanceItem({
-          type: "roadmap",
-          title: "Python Roadmap",
-          url: "https://roadmap.sh/python",
-          provider: "roadmap.sh",
-          label: "Visual roadmap",
-          description: "A staged path through Python syntax, tooling, libraries, and ecosystem-level growth.",
-          icon: "compass",
-        }),
-        createGuidanceItem({
-          type: "course",
-          title: "freeCodeCamp Learn Platform",
-          url: "https://www.freecodecamp.org/learn/",
-          provider: "freeCodeCamp",
-          label: "Guided learning",
-          description: "Use the curriculum hub to pick Python-adjacent beginner and intermediate structured learning paths.",
-          icon: "map",
-        }),
-      ],
-      sql: [
-        createGuidanceItem({
-          type: "roadmap",
-          title: "SQL Roadmap",
-          url: "https://roadmap.sh/sql",
-          provider: "roadmap.sh",
-          label: "Visual roadmap",
-          description: "A knowledge map for querying, joins, normalization, performance, and relational thinking.",
-          icon: "compass",
-        }),
-      ],
-      docker: [
-        createGuidanceItem({
-          type: "roadmap",
-          title: "Docker Roadmap",
-          url: "https://roadmap.sh/docker",
-          provider: "roadmap.sh",
-          label: "Visual roadmap",
-          description: "A focused path through images, containers, volumes, networking, and deployment basics.",
-          icon: "compass",
-        }),
-      ],
-      kubernetes: [
-        createGuidanceItem({
-          type: "roadmap",
-          title: "Kubernetes Roadmap",
-          url: "https://roadmap.sh/kubernetes",
-          provider: "roadmap.sh",
-          label: "Visual roadmap",
-          description: "A structured map for orchestration concepts, workloads, services, and cluster operations.",
-          icon: "compass",
-        }),
-      ],
-      devops: [
-        createGuidanceItem({
-          type: "roadmap",
-          title: "DevOps Roadmap",
-          url: "https://roadmap.sh/devops",
-          provider: "roadmap.sh",
-          label: "Visual roadmap",
-          description: "A broad path across automation, CI/CD, infrastructure, containers, observability, and operations.",
-          icon: "compass",
-        }),
-      ],
-      authentication: [
-        createGuidanceItem({
-          type: "docs",
-          title: "Authentication and Web Security",
-          url: "https://developer.mozilla.org/en-US/docs/Web/Security",
-          provider: "MDN",
-          label: "Official docs",
-          description: "Best starting point for security fundamentals, sessions, tokens, cookies, and browser-level concerns.",
-          icon: "docs",
-        }),
-        createGuidanceItem({
-          type: "practice",
-          title: "Build a Login + Protected Routes Mini Project",
-          provider: "SkillBridge",
-          label: "Practice task",
-          description: "Implement registration, login, JWT or session auth, protected routes, and logout flow in a small app.",
-          icon: "practice",
-        }),
-      ],
-      authorization: [
-        createGuidanceItem({
-          type: "docs",
-          title: "Authorization and Access Control",
-          url: "https://developer.mozilla.org/en-US/docs/Web/Security",
-          provider: "MDN",
-          label: "Official docs",
-          description: "Use this as a conceptual base before building role-based access and permission systems.",
-          icon: "docs",
-        }),
-        createGuidanceItem({
-          type: "practice",
-          title: "Role-Based Access Control Checklist",
-          provider: "SkillBridge",
-          label: "Practice checklist",
-          description: "Add admin/user roles, route guards, permission-based UI rendering, and backend enforcement.",
-          icon: "practice",
-        }),
-      ],
-      "rest api": [
-        createGuidanceItem({
-          type: "learning_path",
-          title: "Backend Roadmap",
-          url: "https://roadmap.sh/backend",
-          provider: "roadmap.sh",
-          label: "Related roadmap",
-          description: "REST APIs fit best under broader backend design, routing, validation, auth, and data handling.",
-          icon: "compass",
-        }),
-        createGuidanceItem({
-          type: "practice",
-          title: "Build a CRUD API",
-          provider: "SkillBridge",
-          label: "Practice project",
-          description: "Create endpoints, validation, status codes, database integration, and error handling in one small service.",
-          icon: "practice",
-        }),
-      ],
-      api: [
-        createGuidanceItem({
-          type: "learning_path",
-          title: "Backend Roadmap",
-          url: "https://roadmap.sh/backend",
-          provider: "roadmap.sh",
-          label: "Related roadmap",
-          description: "API design sits naturally inside broader backend engineering concepts and workflow.",
-          icon: "compass",
-        }),
-        createGuidanceItem({
-          type: "practice",
-          title: "Design and Test an API Workflow",
-          provider: "SkillBridge",
-          label: "Practice task",
-          description: "Define endpoints, request/response schema, validation, and error semantics before implementation.",
-          icon: "practice",
-        }),
-      ],
-      apis: [
-        createGuidanceItem({
-          type: "learning_path",
-          title: "Backend Roadmap",
-          url: "https://roadmap.sh/backend",
-          provider: "roadmap.sh",
-          label: "Related roadmap",
-          description: "A broader backend path is more useful here than forcing a fake API-only roadmap.",
-          icon: "compass",
-        }),
-      ],
-      testing: [
-        createGuidanceItem({
-          type: "docs",
-          title: "Testing Guides and Documentation",
-          url: "https://developer.mozilla.org/",
-          provider: "MDN",
-          label: "Reference docs",
-          description: "Use documentation and framework guides as the starting point for testing concepts and workflows.",
-          icon: "docs",
-        }),
-        createGuidanceItem({
-          type: "practice",
-          title: "Write Unit and Integration Tests",
-          provider: "SkillBridge",
-          label: "Practice checklist",
-          description: "Cover one utility, one component, one API route, and one failure case to build testing muscle properly.",
-          icon: "practice",
-        }),
-      ],
-      debugging: [
-        createGuidanceItem({
-          type: "practice",
-          title: "Debugging Practice Workflow",
-          provider: "SkillBridge",
-          label: "Practice checklist",
-          description: "Reproduce the bug, isolate the failing layer, inspect state/logs, test a fix, and verify regressions.",
-          icon: "practice",
-        }),
-        createGuidanceItem({
-          type: "curated_resources",
-          title: "Debugging Mindset Builder",
-          provider: "SkillBridge",
-          label: "Curated guidance",
-          description: "Use a mix of docs, devtools, logs, and small bug-fix exercises instead of chasing a nonexistent roadmap.",
-          icon: "curated",
-        }),
-      ],
-      communication: [
-        createGuidanceItem({
-          type: "curated_resources",
-          title: "Communication Skill Builder",
-          provider: "SkillBridge",
-          label: "Curated guidance",
-          description: "Focus on writing updates, explaining tradeoffs, documenting decisions, and asking better technical questions.",
-          icon: "curated",
-        }),
-      ],
-      "problem solving": [
-        createGuidanceItem({
-          type: "practice",
-          title: "Problem Solving Practice Routine",
-          provider: "SkillBridge",
-          label: "Practice routine",
-          description: "Break down unknown tasks, identify constraints, sketch solutions, test assumptions, and iterate.",
-          icon: "practice",
-        }),
-        createGuidanceItem({
-          type: "curated_resources",
-          title: "Structured Thinking Resources",
-          provider: "SkillBridge",
-          label: "Curated guidance",
-          description: "Use guided exercises and worked examples rather than pretending there is one universal roadmap.",
-          icon: "curated",
-        }),
-      ],
-      documentation: [
-        createGuidanceItem({
-          type: "docs",
-          title: "Technical Documentation Principles",
-          url: "https://developer.mozilla.org/",
-          provider: "MDN",
-          label: "Reference style",
-          description: "Study how good docs structure concepts, examples, edge cases, and progressive explanation.",
-          icon: "docs",
-        }),
-        createGuidanceItem({
-          type: "practice",
-          title: "Write a Setup Guide and API Usage Note",
-          provider: "SkillBridge",
-          label: "Practice task",
-          description: "Document one project setup flow and one feature or endpoint clearly enough for a stranger to use it.",
-          icon: "practice",
-        }),
-      ],
-      "system design": [
-        createGuidanceItem({
-          type: "learning_path",
-          title: "Backend Roadmap",
-          url: "https://roadmap.sh/backend",
-          provider: "roadmap.sh",
-          label: "Related roadmap",
-          description: "System design is better approached through backend architecture and scaling concepts than a fake narrow path.",
-          icon: "compass",
-        }),
-        createGuidanceItem({
-          type: "curated_resources",
-          title: "System Design Reading Path",
-          provider: "SkillBridge",
-          label: "Curated guidance",
-          description: "Start with APIs, databases, caching, queues, reliability, and tradeoffs before jumping into giant diagrams.",
-          icon: "curated",
-        }),
-      ],
-    };
-
-    const parentFallbackMap = {
-      html: "frontend",
-      css: "frontend",
-      responsive: "frontend",
-      "responsive design": "frontend",
-      "node js": "backend",
-      nodejs: "backend",
-      express: "backend",
-      database: "backend",
-      databases: "backend",
-      postgres: "backend",
-      postgresql: "backend",
-      mongodb: "backend",
-      cloud: "devops",
-      aws: "devops",
-      azure: "devops",
-      gcp: "devops",
-      deployment: "devops",
-      cicd: "devops",
-      "ci cd": "devops",
-      "version control": "git",
-      "react js": "react",
-      "full stack": "fullstack",
-      "git github": "git",
-    };
-
-    if (guidanceMap[normalized]) return guidanceMap[normalized];
-
-    const parentKey = parentFallbackMap[normalized];
-    if (parentKey && guidanceMap[parentKey]) return guidanceMap[parentKey];
-
-    return [];
-  };
 
   const getGuidanceIcon = (iconName) => {
     switch (iconName) {
@@ -662,11 +207,24 @@ const Resources = () => {
         `${item.title} ${item.description} ${item.provider} ${item.label} ${sectionSkill}`
       );
 
-      if (focusNorm && (skillNorm.includes(focusNorm) || focusNorm.includes(skillNorm) || textBlob.includes(focusNorm))) {
+      if (
+        focusNorm &&
+        (skillNorm.includes(focusNorm) ||
+          focusNorm.includes(skillNorm) ||
+          textBlob.includes(focusNorm))
+      ) {
         score += 8;
       }
 
-      if (weakNorms.some((weak) => weak && (skillNorm.includes(weak) || weak.includes(skillNorm) || textBlob.includes(weak)))) {
+      if (
+        weakNorms.some(
+          (weak) =>
+            weak &&
+            (skillNorm.includes(weak) ||
+              weak.includes(skillNorm) ||
+              textBlob.includes(weak))
+        )
+      ) {
         score += 7;
       }
 
@@ -686,7 +244,10 @@ const Resources = () => {
         score += 3;
       }
 
-      if (styleNorms.some((style) => style.includes("guided paths")) && item.type === "learning_path") {
+      if (
+        styleNorms.some((style) => style.includes("guided paths")) &&
+        item.type === "learning_path"
+      ) {
         score += 3;
       }
 
@@ -722,19 +283,41 @@ const Resources = () => {
 
       const blob = `${type} ${title} ${desc} ${url} ${skillNorm}`;
 
-      if (focusNorm && (skillNorm.includes(focusNorm) || focusNorm.includes(skillNorm) || blob.includes(focusNorm))) {
+      if (
+        focusNorm &&
+        (skillNorm.includes(focusNorm) ||
+          focusNorm.includes(skillNorm) ||
+          blob.includes(focusNorm))
+      ) {
         score += 8;
       }
 
-      if (weakNorms.some((weak) => weak && (skillNorm.includes(weak) || weak.includes(skillNorm) || blob.includes(weak)))) {
+      if (
+        weakNorms.some(
+          (weak) =>
+            weak &&
+            (skillNorm.includes(weak) ||
+              weak.includes(skillNorm) ||
+              blob.includes(weak))
+        )
+      ) {
         score += 7;
       }
 
-      if (styleNorms.some((style) => style.includes("videos")) && (type.includes("video") || url.includes("youtube"))) {
+      if (
+        styleNorms.some((style) => style.includes("videos")) &&
+        (type.includes("video") || url.includes("youtube"))
+      ) {
         score += 4;
       }
 
-      if (styleNorms.some((style) => style.includes("documentation")) && (type.includes("docs") || type.includes("documentation") || url.includes("developer.mozilla.org") || url.includes("docs."))) {
+      if (
+        styleNorms.some((style) => style.includes("documentation")) &&
+        (type.includes("docs") ||
+          type.includes("documentation") ||
+          url.includes("developer.mozilla.org") ||
+          url.includes("docs."))
+      ) {
         score += 4;
       }
 
@@ -779,7 +362,9 @@ const Resources = () => {
         const roadmapResources = sectionResources.filter(isRoadmapResource);
         const learningResources = sectionResources
           .filter(isLearningResource)
-          .sort((a, b) => scoreLearningResource(b, section.skill) - scoreLearningResource(a, section.skill));
+          .sort(
+            (a, b) => scoreLearningResource(b, section.skill) - scoreLearningResource(a, section.skill)
+          );
 
         const fallbackGuidance =
           roadmapResources.length === 0 ? getGuidanceFallbacks(section.skill) : [];
@@ -804,18 +389,27 @@ const Resources = () => {
         let relevanceScore = 0;
         const sectionNorm = normalizeText(section.skill);
 
-        if (focusSkill && (sectionNorm.includes(normalizeText(focusSkill)) || normalizeText(focusSkill).includes(sectionNorm))) {
+        if (
+          focusSkill &&
+          (sectionNorm.includes(normalizeText(focusSkill)) ||
+            normalizeText(focusSkill).includes(sectionNorm))
+        ) {
           relevanceScore += 10;
         }
 
-        if (weakAreas.some((weak) => {
-          const weakNorm = normalizeText(weak);
-          return weakNorm && (sectionNorm.includes(weakNorm) || weakNorm.includes(sectionNorm));
-        })) {
+        if (
+          weakAreas.some((weak) => {
+            const weakNorm = normalizeText(weak);
+            return weakNorm && (sectionNorm.includes(weakNorm) || weakNorm.includes(sectionNorm));
+          })
+        ) {
           relevanceScore += 8;
         }
 
-        if (preferredDomain && normalizeText(section.learning_tip).includes(normalizeText(preferredDomain))) {
+        if (
+          preferredDomain &&
+          normalizeText(section.learning_tip).includes(normalizeText(preferredDomain))
+        ) {
           relevanceScore += 2;
         }
 
@@ -967,9 +561,7 @@ const Resources = () => {
         ) : (
           <div className="space-y-10">
             {personalisedSections.map((section) => {
-              const sectionResources = Array.isArray(section.resources)
-                ? section.resources
-                : [];
+              const sectionResources = Array.isArray(section.resources) ? section.resources : [];
 
               return (
                 <section
@@ -979,9 +571,7 @@ const Resources = () => {
                   <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                     <div>
                       <div className="mb-3 flex flex-wrap items-center gap-3">
-                        <h2 className="text-3xl font-bold text-slate-950">
-                          {section.skill}
-                        </h2>
+                        <h2 className="text-3xl font-bold text-slate-950">{section.skill}</h2>
 
                         <span
                           className={`rounded-full border px-3 py-1 text-xs font-semibold ${getPriorityColor(
@@ -1041,9 +631,7 @@ const Resources = () => {
                                 </span>
                               </div>
 
-                              <h3 className="text-lg font-bold text-slate-950">
-                                {item.title}
-                              </h3>
+                              <h3 className="text-lg font-bold text-slate-950">{item.title}</h3>
 
                               <p className="mt-2 text-sm leading-6 text-slate-600">
                                 {item.description}
@@ -1084,7 +672,8 @@ const Resources = () => {
                             No roadmap-style guidance available
                           </div>
                           <p className="mt-1 text-sm leading-6 text-slate-600">
-                            This skill does not have a trustworthy roadmap or mapped fallback yet. Use the curated learning resources below.
+                            This skill does not have a trustworthy roadmap or mapped fallback yet.
+                            Use the curated learning resources below.
                           </p>
                         </div>
                       </div>
@@ -1132,10 +721,7 @@ const Resources = () => {
                               rel="noopener noreferrer"
                               className="mt-5 block"
                             >
-                              <Button
-                                variant="outline"
-                                className="w-full rounded-full"
-                              >
+                              <Button variant="outline" className="w-full rounded-full">
                                 Open resource
                                 <ExternalLink className="ml-2 h-4 w-4" />
                               </Button>

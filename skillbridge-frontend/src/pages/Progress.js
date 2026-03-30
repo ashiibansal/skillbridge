@@ -69,7 +69,10 @@ const Progress = () => {
   }, [fetchProgress]);
 
   const focusSkill = profile?.focus_skill || "";
-  const weakAreas = Array.isArray(profile?.weak_areas) ? profile.weak_areas : [];
+  const weakAreas = useMemo(
+    () => (Array.isArray(profile?.weak_areas) ? profile.weak_areas : []),
+    [profile?.weak_areas]
+  );
   const targetRole = profile?.target_role || "";
   const nextMilestone = profile?.next_milestone || "Set your next milestone";
   const weeklyHours = profile?.weekly_hours || "Not set";

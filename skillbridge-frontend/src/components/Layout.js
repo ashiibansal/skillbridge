@@ -9,6 +9,7 @@ import {
   Briefcase,
   BookOpen,
   ChartNoAxesCombined,
+  Map,
   X,
 } from "lucide-react";
 import Chatbot from "./Chatbot";
@@ -23,6 +24,7 @@ function Layout({ children }) {
     () => [
       { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
       { to: "/roles", label: "Roles", icon: Briefcase },
+      { to: "/career-roadmap", label: "Roadmap", icon: Map },
       { to: "/resources", label: "Resources", icon: BookOpen },
       { to: "/progress", label: "Progress", icon: ChartNoAxesCombined },
       { to: "/profile", label: "Profile", icon: User },
@@ -76,9 +78,7 @@ function Layout({ children }) {
           <NavItems />
 
           <div className="hidden items-center gap-3 lg:flex">
-            <div className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-600">
-              Signed in as <span className="font-semibold text-slate-900">{auth.user?.name || "Learner"}</span>
-            </div>
+          
             <button
               onClick={handleLogout}
               className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-red-200 hover:bg-red-50 hover:text-red-700"
@@ -102,7 +102,9 @@ function Layout({ children }) {
             <NavItems mobile />
             <div className="mt-4 flex items-center justify-between rounded-2xl bg-slate-50 p-4">
               <div>
-                <div className="text-sm font-semibold text-slate-900">{auth.user?.name || "Learner"}</div>
+                <div className="text-sm font-semibold text-slate-900">
+                  {auth.user?.name || "Learner"}
+                </div>
                 <div className="text-xs text-slate-500">{auth.user?.email || ""}</div>
               </div>
               <button

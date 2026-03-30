@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { AuthContext } from "../context/AuthContext";
 import { API } from "../lib/api";
 
+
 const GapAnalysis = () => {
   const { assessmentId } = useParams();
   const navigate = useNavigate();
@@ -206,13 +207,21 @@ const GapAnalysis = () => {
         </motion.div>
 
         {/* CTA */}
-        <div className="flex justify-end">
+        <div className="flex justify-end mb-4">
           <Button
             onClick={goToResources}
             className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 h-12"
           >
             View Learning Resources
             <BookOpen className="ml-2 w-5 h-5" />
+          </Button>
+        </div>
+        <div className="flex justify-end">
+          <Button
+            onClick={() => navigate(`/career-roadmap/${assessmentId}`)}
+            className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 h-12">
+            Build Personalised Career Roadmap
+            <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
         </div>
       </div>

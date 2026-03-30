@@ -9,13 +9,14 @@ import Dashboard from "./pages/Dashboard";
 import CareerRoles from "./pages/CareerRoles";
 import Assessment from "./pages/Assessment";
 import GapAnalysis from "./pages/GapAnalysis";
-import Roadmap from "./pages/Roadmap";
 import Resources from "./pages/Resources";
 import Progress from "./pages/Progress";
+import Profile from "./pages/Profile";
+import CareerRoadmap from "./pages/CareerRoadmap";
+
 import { AuthContext } from "./context/AuthContext";
 import "./App.css";
 import { API } from "./lib/api";
-import Profile from "./pages/Profile";
 
 function ProtectedRoute({ children }) {
   const { user } = React.useContext(AuthContext);
@@ -87,14 +88,80 @@ function App() {
           <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <Landing />} />
           <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
           <Route path="/register" element={user ? <Navigate to="/dashboard" replace /> : <Register />} />
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/roles" element={<ProtectedRoute><CareerRoles /></ProtectedRoute>} />
-          <Route path="/assessment/:roleId" element={<ProtectedRoute><Assessment /></ProtectedRoute>} />
-          <Route path="/gap-analysis/:assessmentId" element={<ProtectedRoute><GapAnalysis /></ProtectedRoute>} />
-          <Route path="/roadmap/:analysisId" element={<ProtectedRoute><Roadmap /></ProtectedRoute>} />
-          <Route path="/resources" element={<ProtectedRoute><Resources /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} />
+
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/roles"
+            element={
+              <ProtectedRoute>
+                <CareerRoles />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/assessment/:roleId"
+            element={
+              <ProtectedRoute>
+                <Assessment />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/gap-analysis/:assessmentId"
+            element={
+              <ProtectedRoute>
+                <GapAnalysis />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/career-roadmap/:assessmentId"
+            element={
+              <ProtectedRoute>
+                <CareerRoadmap />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/career-roadmap"
+            element={
+              <ProtectedRoute>
+                <CareerRoadmap />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/resources"
+            element={
+              <ProtectedRoute>
+                <Resources />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/progress"
+            element={
+              <ProtectedRoute>
+                <Progress />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} replace />} />
         </Routes>
       </BrowserRouter>
