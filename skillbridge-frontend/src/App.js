@@ -13,6 +13,8 @@ import Resources from "./pages/Resources";
 import Progress from "./pages/Progress";
 import Profile from "./pages/Profile";
 import CareerRoadmap from "./pages/CareerRoadmap";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 import { AuthContext } from "./context/AuthContext";
 import "./App.css";
@@ -88,6 +90,8 @@ function App() {
           <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <Landing />} />
           <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
           <Route path="/register" element={user ? <Navigate to="/dashboard" replace /> : <Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           <Route
             path="/dashboard"

@@ -99,6 +99,9 @@ const Login = () => {
                 {loading ? 'Signing in…' : 'Sign in'} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </form>
+            <p><Link to="/forgot-password" className="text-sm font-medium text-slate-700 hover:text-slate-900">
+                Forgot password?
+              </Link></p>
 
             <p className="mt-6 text-center text-sm text-slate-600">
               Don&apos;t have an account? <Link to="/register" className="font-semibold text-slate-900 hover:underline">Create one</Link>
