@@ -2,7 +2,7 @@
   {
     "title": "Frontend Developer",
     "description": "Build modern, interactive web user interfaces.",
-    "average_salary": "$80,000 - $120,000",
+    "average_salary": "₹4 - ₹22 LPA",
     "growth_rate": "High",
     "required_skills": [
       { "name": "HTML", "category": "Frontend", "required_level": 4 },
@@ -20,7 +20,7 @@
   {
     "title": "Backend Developer",
     "description": "Design APIs, manage databases, and build scalable systems.",
-    "average_salary": "$90,000 - $130,000",
+    "average_salary": "₹5 - ₹24 LPA",
     "growth_rate": "High",
     "required_skills": [
       { "name": "Node.js", "category": "Backend", "required_level": 5 },
@@ -38,7 +38,7 @@
   {
     "title": "DevOps Engineer",
     "description": "Manage infrastructure, automation, CI/CD, and cloud systems.",
-    "average_salary": "$100,000 - $150,000",
+    "average_salary": "₹6 - ₹28 LPA",
     "growth_rate": "Very High",
     "required_skills": [
       { "name": "Linux", "category": "DevOps", "required_level": 5 },
@@ -56,7 +56,7 @@
   {
     "title": "Full Stack Developer",
     "description": "Develop both frontend interfaces and backend services.",
-    "average_salary": "$95,000 - $135,000",
+    "average_salary": "₹5 - ₹24 LPA",
     "growth_rate": "Very High",
     "required_skills": [
       { "name": "HTML", "category": "Frontend", "required_level": 4 },
@@ -74,7 +74,7 @@
   {
     "title": "Data Scientist",
     "description": "Analyze data, build machine learning models, and extract insights.",
-    "average_salary": "$110,000 - $160,000",
+    "average_salary": "₹8 - ₹28 LPA",
     "growth_rate": "Very High",
     "required_skills": [
       { "name": "Python", "category": "Programming", "required_level": 5 },
@@ -92,7 +92,7 @@
   {
     "title": "Mobile App Developer",
     "description": "Build mobile applications for Android and iOS platforms.",
-    "average_salary": "$90,000 - $130,000",
+    "average_salary": "₹5 - ₹22 LPA",
     "growth_rate": "High",
     "required_skills": [
       { "name": "JavaScript", "category": "Programming", "required_level": 4 },
@@ -110,7 +110,7 @@
   {
     "title": "AI Engineer",
     "description": "Develop and deploy artificial intelligence and machine learning systems.",
-    "average_salary": "$120,000 - $170,000",
+    "average_salary": "₹10 - ₹35 LPA",
     "growth_rate": "Extremely High",
     "required_skills": [
       { "name": "Python", "category": "Programming", "required_level": 5 },
@@ -128,7 +128,7 @@
   {
     "title": "Cybersecurity Engineer",
     "description": "Protect systems, networks, and data from cyber threats and vulnerabilities.",
-    "average_salary": "$100,000 - $150,000",
+    "average_salary": "₹6 - ₹24 LPA",
     "growth_rate": "Very High",
     "required_skills": [
       { "name": "Networking Fundamentals", "category": "Security", "required_level": 5 },
@@ -146,7 +146,7 @@
   {
     "title": "Cloud Engineer",
     "description": "Design, deploy and manage applications on cloud platforms.",
-    "average_salary": "$105,000 - $145,000",
+    "average_salary": "₹7 - ₹26 LPA",
     "growth_rate": "Very High",
     "required_skills": [
       { "name": "AWS / GCP / Azure", "category": "Cloud", "required_level": 5 },
@@ -164,7 +164,7 @@
   {
     "title": "Machine Learning Engineer",
     "description": "Build, train, and deploy machine learning models in production systems.",
-    "average_salary": "$115,000 - $165,000",
+    "average_salary": "₹10 - ₹32 LPA",
     "growth_rate": "Extremely High",
     "required_skills": [
       { "name": "Python", "category": "Programming", "required_level": 5 },
@@ -182,7 +182,7 @@
   {
     "title": "UI/UX Designer",
     "description": "Design user-friendly interfaces and improve user experience of digital products.",
-    "average_salary": "$70,000 - $110,000",
+    "average_salary": "₹4 - ₹18 LPA",
     "growth_rate": "High",
     "required_skills": [
       { "name": "Figma", "category": "Design", "required_level": 5 },
@@ -200,7 +200,7 @@
   {
     "title": "Software Tester (QA Engineer)",
     "description": "Test software applications to identify bugs and ensure product quality.",
-    "average_salary": "$75,000 - $110,000",
+    "average_salary": "₹4 - ₹16 LPA",
     "growth_rate": "High",
     "required_skills": [
       { "name": "Manual Testing", "category": "Testing", "required_level": 5 },
@@ -213,6 +213,240 @@
       { "name": "CI/CD Integration", "category": "Testing", "required_level": 2 },
       { "name": "SQL", "category": "Database", "required_level": 2 },
       { "name": "Git", "category": "Tooling", "required_level": 2 }
+    ]
+  },
+  {
+    "title": "Data Analyst",
+    "description": "Clean, analyze, and visualize data to support business decisions.",
+    "average_salary": "₹4 - ₹14 LPA",
+    "growth_rate": "High",
+    "required_skills": [
+      { "name": "SQL", "category": "Database", "required_level": 5 },
+      { "name": "Excel", "category": "Analytics", "required_level": 5 },
+      { "name": "Python", "category": "Programming", "required_level": 3 },
+      { "name": "Statistics", "category": "Analytics", "required_level": 4 },
+      { "name": "Power BI", "category": "Analytics", "required_level": 4 },
+      { "name": "Tableau", "category": "Analytics", "required_level": 4 },
+      { "name": "Data Cleaning", "category": "Analytics", "required_level": 4 },
+      { "name": "Data Visualization", "category": "Analytics", "required_level": 4 },
+      { "name": "Business Communication", "category": "Soft Skills", "required_level": 3 },
+      { "name": "Git", "category": "Tooling", "required_level": 2 }
+    ]
+  },
+  {
+    "title": "Data Engineer",
+    "description": "Build and maintain reliable data pipelines and data platforms.",
+    "average_salary": "₹7 - ₹24 LPA",
+    "growth_rate": "Very High",
+    "required_skills": [
+      { "name": "Python", "category": "Programming", "required_level": 4 },
+      { "name": "SQL", "category": "Database", "required_level": 5 },
+      { "name": "ETL Pipelines", "category": "Data Engineering", "required_level": 5 },
+      { "name": "Apache Spark", "category": "Data Engineering", "required_level": 4 },
+      { "name": "Airflow", "category": "Data Engineering", "required_level": 4 },
+      { "name": "Data Warehousing", "category": "Data Engineering", "required_level": 4 },
+      { "name": "AWS / GCP / Azure", "category": "Cloud", "required_level": 4 },
+      { "name": "Linux", "category": "Tooling", "required_level": 3 },
+      { "name": "Docker", "category": "DevOps", "required_level": 3 },
+      { "name": "Git", "category": "Tooling", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "Site Reliability Engineer",
+    "description": "Improve system reliability, observability, and production resilience.",
+    "average_salary": "₹10 - ₹30 LPA",
+    "growth_rate": "Very High",
+    "required_skills": [
+      { "name": "Linux", "category": "SRE", "required_level": 5 },
+      { "name": "Networking", "category": "SRE", "required_level": 4 },
+      { "name": "Monitoring", "category": "SRE", "required_level": 5 },
+      { "name": "Incident Response", "category": "SRE", "required_level": 4 },
+      { "name": "Kubernetes", "category": "DevOps", "required_level": 4 },
+      { "name": "Docker", "category": "DevOps", "required_level": 4 },
+      { "name": "CI/CD", "category": "DevOps", "required_level": 3 },
+      { "name": "Python / Go", "category": "Programming", "required_level": 3 },
+      { "name": "Cloud Platforms", "category": "Cloud", "required_level": 4 },
+      { "name": "Git", "category": "Tooling", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "Product Manager",
+    "description": "Define product strategy, prioritise features, and drive execution across teams.",
+    "average_salary": "₹10 - ₹35 LPA",
+    "growth_rate": "High",
+    "required_skills": [
+      { "name": "Product Strategy", "category": "Product", "required_level": 5 },
+      { "name": "Roadmapping", "category": "Product", "required_level": 5 },
+      { "name": "User Research", "category": "Product", "required_level": 4 },
+      { "name": "Analytics", "category": "Product", "required_level": 4 },
+      { "name": "A/B Testing", "category": "Product", "required_level": 3 },
+      { "name": "Wireframing", "category": "Product", "required_level": 3 },
+      { "name": "Stakeholder Management", "category": "Soft Skills", "required_level": 5 },
+      { "name": "Communication Skills", "category": "Soft Skills", "required_level": 5 },
+      { "name": "Agile / Scrum", "category": "Product", "required_level": 4 },
+      { "name": "SQL", "category": "Analytics", "required_level": 2 }
+    ]
+  },
+  {
+    "title": "Business Analyst",
+    "description": "Translate business needs into system requirements and process improvements.",
+    "average_salary": "₹5 - ₹16 LPA",
+    "growth_rate": "High",
+    "required_skills": [
+      { "name": "Requirement Gathering", "category": "Business Analysis", "required_level": 5 },
+      { "name": "Process Mapping", "category": "Business Analysis", "required_level": 4 },
+      { "name": "SQL", "category": "Analytics", "required_level": 3 },
+      { "name": "Excel", "category": "Analytics", "required_level": 4 },
+      { "name": "Documentation", "category": "Business Analysis", "required_level": 4 },
+      { "name": "Wireframing", "category": "Business Analysis", "required_level": 3 },
+      { "name": "Stakeholder Management", "category": "Soft Skills", "required_level": 4 },
+      { "name": "Communication Skills", "category": "Soft Skills", "required_level": 5 },
+      { "name": "Agile / Scrum", "category": "Business Analysis", "required_level": 3 },
+      { "name": "Problem Solving", "category": "Soft Skills", "required_level": 4 }
+    ]
+  },
+  {
+    "title": "Solutions Architect",
+    "description": "Design scalable technical solutions aligned with business and system needs.",
+    "average_salary": "₹18 - ₹45 LPA",
+    "growth_rate": "High",
+    "required_skills": [
+      { "name": "System Design", "category": "Architecture", "required_level": 5 },
+      { "name": "Cloud Platforms", "category": "Cloud", "required_level": 5 },
+      { "name": "APIs", "category": "Architecture", "required_level": 4 },
+      { "name": "Databases", "category": "Architecture", "required_level": 4 },
+      { "name": "Security Basics", "category": "Architecture", "required_level": 4 },
+      { "name": "Integration Patterns", "category": "Architecture", "required_level": 4 },
+      { "name": "Microservices", "category": "Architecture", "required_level": 4 },
+      { "name": "DevOps Awareness", "category": "Architecture", "required_level": 3 },
+      { "name": "Stakeholder Communication", "category": "Soft Skills", "required_level": 5 },
+      { "name": "Documentation", "category": "Architecture", "required_level": 4 }
+    ]
+  },
+  {
+    "title": "Blockchain Developer",
+    "description": "Build decentralised applications and smart contract systems.",
+    "average_salary": "₹8 - ₹28 LPA",
+    "growth_rate": "Niche but High",
+    "required_skills": [
+      { "name": "Solidity", "category": "Blockchain", "required_level": 5 },
+      { "name": "JavaScript", "category": "Programming", "required_level": 4 },
+      { "name": "Smart Contracts", "category": "Blockchain", "required_level": 5 },
+      { "name": "Ethereum", "category": "Blockchain", "required_level": 4 },
+      { "name": "Web3.js / Ethers.js", "category": "Blockchain", "required_level": 4 },
+      { "name": "Cryptography Basics", "category": "Blockchain", "required_level": 4 },
+      { "name": "Node.js", "category": "Backend", "required_level": 3 },
+      { "name": "Testing", "category": "Quality", "required_level": 3 },
+      { "name": "Security Basics", "category": "Security", "required_level": 4 },
+      { "name": "Git", "category": "Tooling", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "Game Developer",
+    "description": "Design and build gameplay systems, mechanics, and interactive game experiences.",
+    "average_salary": "₹4 - ₹18 LPA",
+    "growth_rate": "Moderate to High",
+    "required_skills": [
+      { "name": "C#", "category": "Programming", "required_level": 4 },
+      { "name": "C++", "category": "Programming", "required_level": 3 },
+      { "name": "Unity", "category": "Game Development", "required_level": 5 },
+      { "name": "Unreal Engine", "category": "Game Development", "required_level": 3 },
+      { "name": "Game Physics", "category": "Game Development", "required_level": 3 },
+      { "name": "OOP", "category": "Programming", "required_level": 4 },
+      { "name": "Debugging", "category": "Game Development", "required_level": 4 },
+      { "name": "Version Control", "category": "Tooling", "required_level": 3 },
+      { "name": "Performance Optimization", "category": "Game Development", "required_level": 3 },
+      { "name": "Problem Solving", "category": "Soft Skills", "required_level": 4 }
+    ]
+  },
+  {
+    "title": "Database Administrator",
+    "description": "Manage, secure, tune, and maintain database systems in production.",
+    "average_salary": "₹6 - ₹20 LPA",
+    "growth_rate": "Stable",
+    "required_skills": [
+      { "name": "SQL", "category": "Database", "required_level": 5 },
+      { "name": "PostgreSQL / MySQL", "category": "Database", "required_level": 5 },
+      { "name": "Backup and Recovery", "category": "Database", "required_level": 4 },
+      { "name": "Performance Tuning", "category": "Database", "required_level": 4 },
+      { "name": "Database Security", "category": "Database", "required_level": 4 },
+      { "name": "Linux", "category": "Tooling", "required_level": 3 },
+      { "name": "Monitoring", "category": "Database", "required_level": 3 },
+      { "name": "Replication", "category": "Database", "required_level": 3 },
+      { "name": "Scripting", "category": "Programming", "required_level": 3 },
+      { "name": "Documentation", "category": "Database", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "AR/VR Developer",
+    "description": "Build immersive augmented and virtual reality experiences.",
+    "average_salary": "₹6 - ₹22 LPA",
+    "growth_rate": "Emerging",
+    "required_skills": [
+      { "name": "Unity", "category": "AR/VR", "required_level": 5 },
+      { "name": "C#", "category": "Programming", "required_level": 4 },
+      { "name": "3D Math", "category": "AR/VR", "required_level": 4 },
+      { "name": "XR SDKs", "category": "AR/VR", "required_level": 4 },
+      { "name": "Interaction Design", "category": "Design", "required_level": 3 },
+      { "name": "Debugging", "category": "AR/VR", "required_level": 4 },
+      { "name": "Performance Optimization", "category": "AR/VR", "required_level": 4 },
+      { "name": "3D Asset Integration", "category": "AR/VR", "required_level": 3 },
+      { "name": "Version Control", "category": "Tooling", "required_level": 3 },
+      { "name": "Prototyping", "category": "AR/VR", "required_level": 3 }
+    ]
+  },
+  {
+    "title": "Technical Writer",
+    "description": "Create developer-facing and product-facing documentation that is clear and usable.",
+    "average_salary": "₹4 - ₹15 LPA",
+    "growth_rate": "Moderate",
+    "required_skills": [
+      { "name": "Technical Documentation", "category": "Writing", "required_level": 5 },
+      { "name": "API Documentation", "category": "Writing", "required_level": 4 },
+      { "name": "Information Architecture", "category": "Writing", "required_level": 4 },
+      { "name": "Research", "category": "Writing", "required_level": 4 },
+      { "name": "Communication Skills", "category": "Soft Skills", "required_level": 5 },
+      { "name": "Editing", "category": "Writing", "required_level": 4 },
+      { "name": "Markdown", "category": "Tooling", "required_level": 3 },
+      { "name": "Git", "category": "Tooling", "required_level": 2 },
+      { "name": "Developer Tooling Awareness", "category": "Writing", "required_level": 3 },
+      { "name": "User Empathy", "category": "Soft Skills", "required_level": 4 }
+    ]
+  },
+  {
+    "title": "Scrum Master",
+    "description": "Facilitate Agile delivery, remove blockers, and improve team process health.",
+    "average_salary": "₹8 - ₹22 LPA",
+    "growth_rate": "High",
+    "required_skills": [
+      { "name": "Agile", "category": "Project Delivery", "required_level": 5 },
+      { "name": "Scrum", "category": "Project Delivery", "required_level": 5 },
+      { "name": "Facilitation", "category": "Soft Skills", "required_level": 5 },
+      { "name": "Stakeholder Management", "category": "Soft Skills", "required_level": 4 },
+      { "name": "Conflict Resolution", "category": "Soft Skills", "required_level": 4 },
+      { "name": "Project Tracking Tools", "category": "Tooling", "required_level": 4 },
+      { "name": "Communication Skills", "category": "Soft Skills", "required_level": 5 },
+      { "name": "Process Improvement", "category": "Project Delivery", "required_level": 4 },
+      { "name": "Risk Management", "category": "Project Delivery", "required_level": 3 },
+      { "name": "Coaching", "category": "Soft Skills", "required_level": 4 }
+    ]
+  },
+  {
+    "title": "Project Manager",
+    "description": "Plan, coordinate, and deliver technology projects on scope, time, and budget.",
+    "average_salary": "₹10 - ₹28 LPA",
+    "growth_rate": "High",
+    "required_skills": [
+      { "name": "Project Planning", "category": "Project Management", "required_level": 5 },
+      { "name": "Stakeholder Management", "category": "Soft Skills", "required_level": 5 },
+      { "name": "Risk Management", "category": "Project Management", "required_level": 4 },
+      { "name": "Agile / Scrum", "category": "Project Management", "required_level": 4 },
+      { "name": "Budgeting", "category": "Project Management", "required_level": 4 },
+      { "name": "Communication Skills", "category": "Soft Skills", "required_level": 5 },
+      { "name": "Documentation", "category": "Project Management", "required_level": 4 },
+      { "name": "Project Tracking Tools", "category": "Tooling", "required_level": 4 },
+      { "name": "Leadership", "category": "Soft Skills", "required_level": 4 },
+      { "name": "Problem Solving", "category": "Soft Skills", "required_level": 4 }
     ]
   }
 ]
