@@ -26,11 +26,27 @@ const allowedOrigins = [
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
+      if (!origin) {
         return callback(null, true);
       }
-      return callback(new Error("Not allowed by CORS"));
+
+      const normalizedOrigin = origin.trim().replace(/\/$/, "");
+      const normalizedAllowedOrigins = allowedOrigins.map((item) =>
+        String(item).trim().replace(/\/$/, "")
+      );
+
+      const isExactMatch = normalizedAllowedOrigins.includes(normalizedOrigin);
+
+      const isVercelPreview =
+        normalizedOrigin.includes("skillbridge") &&
+        normalizedOrigin.endsWith(".vercel.app");
+
+      if (isExactMatch || isVercelPreview) {
+        return callback(null, true);
+      }
+
+      console.error(`CORS blocked origin: ${normalizedOrigin}`);
+      return callback(new Error(`Not allowed by CORS: ${normalizedOrigin}`));
     },
     credentials: true,
   })
